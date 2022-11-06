@@ -6,3 +6,25 @@
 .App > div {
   margin-right: 50px;
 }
+
+.topSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.topSection > h3 {
+  margin-right: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.activeButton {
+  background-color: lightskyblue;
+}
+
+.completedTask {
+  opacity: 0.5;
+}
