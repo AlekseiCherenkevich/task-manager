@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, MouseEventHandler, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TodoListType} from "../App";
 import {TodoListTitle} from "./TodoListTitle";
 import {Tasks} from "./Tasks";
@@ -12,6 +12,7 @@ type TodoListPropsType = {
     changeTaskStatus: (todoListIdx: number, taskID: string, status: boolean) => void
     addNewTodoList: () => void
     changeTodoListTitle: (todoListIdx: number, todoListTitle: string) => void
+    changeTaskTitle: (todoListIdx: number, taskID: string, taskNewTitle: string) => void
 }
 export type FilterValuesType = 'all' | 'completed' | 'active'
 
@@ -22,7 +23,8 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         removeTask,
         changeTaskStatus,
         addNewTodoList,
-        changeTodoListTitle} = props
+        changeTodoListTitle,
+        changeTaskTitle} = props
 
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
     const [error, setError] = useState<string>('')
@@ -86,6 +88,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             filteredTasks={filterTasks()}
             removeTask={removeTask}
             changeTaskStatus={changeTaskStatus}
+            changeTaskTitle={changeTaskTitle}
         />
         <Filters filter={filter} onChangeFilterValue={onChangeFilterValue}/>
     </div>

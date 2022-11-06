@@ -28,3 +28,20 @@
 .completedTask {
   opacity: 0.5;
 }
+
+.editModeTodoTitleInput {
+  width: 120px;
+  height: 20px;
+  margin: 18px 10px;
+  padding: 0px 5px;
+  border: 1px solid violet;
+  outline: none;
+}
+
+.editModeTaskTitleInput {
+  width: 90px;
+  height: 20px;
+  padding: 0px 5px;
+  border: 1px solid violet;
+  outline: none;
+}

@@ -26,18 +26,20 @@ function App() {
         }
     ])
 
+    const createTodolistCopy = () => JSON.parse(JSON.stringify(todoLists))
+
     const addNewTask = (todoListIdx: number, newTaskTitle: string) => {
-        const todoListsCopy = JSON.parse(JSON.stringify(todoLists))
+        const todoListsCopy = createTodolistCopy()
         todoListsCopy[todoListIdx].tasks = [{taskID: v1(), taskTitle: newTaskTitle, isDone: false}, ...todoListsCopy[todoListIdx].tasks]
         setTodoLists(todoListsCopy)
     }
     const removeTask = (todoListIdx: number, taskID: string) => {
-        const todoListsCopy = JSON.parse(JSON.stringify(todoLists))
+        const todoListsCopy = createTodolistCopy()
         todoListsCopy[todoListIdx].tasks = todoListsCopy[todoListIdx].tasks.filter((t: TaskType)=>t.taskID!==taskID)
         setTodoLists(todoListsCopy)
     }
     const changeTaskStatus = (todoListIdx: number, taskID: string, status: boolean) => {
-        const todoListsCopy = JSON.parse(JSON.stringify(todoLists))
+        const todoListsCopy = createTodolistCopy()
         todoListsCopy[todoListIdx].tasks = todoListsCopy[todoListIdx].tasks.map((t: TaskType)=>{
             if (t.taskID === taskID) {
                 return {...t, isDone: status}
@@ -49,12 +51,16 @@ function App() {
     }
     const addNewTodoList = () => setTodoLists([...todoLists, {todoTitle: '...', tasks: []}])
     const changeTodoListTitle = (todoListIdx: number, todoListTitle: string) => {
-        debugger
-        const todoListsCopy = JSON.parse(JSON.stringify(todoLists))
+        const todoListsCopy = createTodolistCopy()
         todoListsCopy[todoListIdx].todoTitle = todoListTitle
         setTodoLists(todoListsCopy)
     }
-
+    const changeTaskTitle = (todoListIdx: number, taskID: string, taskNewTitle: string) => {
+        console.log(taskNewTitle)
+        const todoListsCopy = createTodolistCopy()
+        todoListsCopy[todoListIdx].tasks = todoListsCopy[todoListIdx].tasks.map((t: TaskType)=> t.taskID===taskID ? {...t, taskTitle: taskNewTitle} : t)
+        setTodoLists(todoListsCopy)
+    }
 
     return (
         <div className="App">
@@ -67,6 +73,7 @@ function App() {
                     changeTaskStatus={changeTaskStatus}
                     addNewTodoList={addNewTodoList}
                     changeTodoListTitle={changeTodoListTitle}
+                    changeTaskTitle={changeTaskTitle}
                 />
             } )}
         </div>

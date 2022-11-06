@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type TaskPropsType = {
     todoListIdx: number
@@ -7,16 +7,42 @@ type TaskPropsType = {
     isDone: boolean
     removeTask: (todoListIdx: number, taskID: string) => void
     changeTaskStatus: (todoListIdx: number, taskID: string, status: boolean) => void
+    changeTaskTitle: (todoListIdx: number, taskID: string, taskNewTitle: string) => void
 }
 
 export const Task: React.FC<TaskPropsType> = (props) => {
-    const {todoListIdx, taskTitle, taskID, isDone, removeTask, changeTaskStatus} = props
+    const {todoListIdx,
+        taskTitle,
+        taskID,
+        isDone,
+        removeTask,
+        changeTaskStatus,
+        changeTaskTitle
+    } = props
+
+    const [isEditMode, setIsEditMode] = useState<boolean>(false)
+    const [taskNewTitle, setTaskNewTitle] = useState<string>('')
+
+    const activateEditMode = () => setIsEditMode(true)
+    const deactivateEditMode = () => setIsEditMode(false)
 
     const onClickRemoveTaskHandler = () => {
         removeTask(todoListIdx, taskID)
     }
     const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         changeTaskStatus(todoListIdx, taskID, e.currentTarget.checked)
+    }
+    const onChangeTaskNewTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setTaskNewTitle(e.currentTarget.value)
+    }
+    const onEnterPressSetTaskNewTitle = (e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.charCode === 13) {
+            if (taskNewTitle.trim()) {
+                changeTaskTitle(todoListIdx, taskID, taskNewTitle)
+            }
+            deactivateEditMode()
+            setTaskNewTitle('')
+        }
     }
 
     return <li key={taskID} className={isDone ? 'completedTask' : ''}>
@@ -25,7 +51,18 @@ export const Task: React.FC<TaskPropsType> = (props) => {
             checked={isDone}
             onChange={onChangeTaskStatusHandler}
         />
-        <span>{taskTitle}</span>
+        {isEditMode
+            ? <input
+                type="text"
+                className='editModeTaskTitleInput'
+                onChange={onChangeTaskNewTitleHandler}
+                onBlur={deactivateEditMode}
+                onKeyPress={onEnterPressSetTaskNewTitle}
+                autoFocus={true}
+            />
+            : <span
+                onDoubleClick={activateEditMode}
+            >{taskTitle}</span>}
         <button onClick={onClickRemoveTaskHandler}>-</button>
     </li>
 }

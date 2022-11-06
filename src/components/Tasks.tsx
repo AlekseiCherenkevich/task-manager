@@ -7,10 +7,15 @@ type TasksPropsType = {
     filteredTasks: TaskType[]
     removeTask: (todoListIdx: number, taskID: string) => void
     changeTaskStatus: (todoListIdx: number, taskID: string, status: boolean) => void
+    changeTaskTitle: (todoListIdx: number, taskID: string, taskNewTitle: string) => void
 }
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
-    const {todoListIdx, filteredTasks, removeTask, changeTaskStatus} = props
+    const {todoListIdx,
+        filteredTasks,
+        removeTask,
+        changeTaskStatus,
+        changeTaskTitle} = props
     return <ul>
         {filteredTasks.map(t => {
             return <Task
@@ -20,6 +25,7 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
                 isDone={t.isDone}
                 removeTask={removeTask}
                 changeTaskStatus={changeTaskStatus}
+                changeTaskTitle={changeTaskTitle}
             />
         })}
     </ul>

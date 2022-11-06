@@ -11,12 +11,6 @@ export const TodoListTitle: React.FC<TodoListTitlePropsType> = (props) => {
     const [todoListTitle, setTodoListTitle] = useState<string>('')
     const [isEditMode, setIsEditMode] = useState<boolean>(false)
 
-    const inputStyle = {
-        width: '120px',
-        height: '20px',
-        margin: '18px 10px',
-        padding: '0px 5px'
-    }
 
     const activateEditMode = () => setIsEditMode(true)
     const deactivateEditMode = () => setIsEditMode(false)
@@ -39,7 +33,7 @@ export const TodoListTitle: React.FC<TodoListTitlePropsType> = (props) => {
             onBlur={deactivateEditMode}
             onKeyPress={onEnterPressInputHandler}
             type="text"
-            style={inputStyle}
+            className='editModeTodoTitleInput'
             autoFocus={true}
         />
         : <h3 onDoubleClick={activateEditMode}>{todoTitle}</h3>
