@@ -47,11 +47,7 @@ function App() {
         })
         setTodoLists(todoListsCopy)
     }
-    const addNewTodoList = () => {
-        setTodoLists([...todoLists, {todoTitle: '...', tasks: [
-            // {taskID: v1(), taskTitle: '', isDone: false}
-            ]}])
-    }
+    const addNewTodoList = () => setTodoLists([...todoLists, {todoTitle: '...', tasks: []}])
 
 
     return (

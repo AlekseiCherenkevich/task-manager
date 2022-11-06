@@ -1,5 +1,8 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, MouseEventHandler, useState} from "react";
 import {TodoListType} from "../App";
+import {TodoListTitle} from "./TodoListTitle";
+import {Tasks} from "./Tasks";
+import {Filters} from "./Filters";
 
 type TodoListPropsType = {
     todoList: TodoListType
@@ -9,8 +12,7 @@ type TodoListPropsType = {
     changeTaskStatus: (todoListIdx: number, taskID: string, status: boolean) => void
     addNewTodoList: () => void
 }
-
-type FilterValuesType = 'all' | 'completed' | 'active'
+export type FilterValuesType = 'all' | 'completed' | 'active'
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
     const {todoList,
@@ -55,10 +57,9 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
 
     return <div>
         <div className='topSection'>
-            <h3>{todoList.todoTitle}</h3>
+            <TodoListTitle todoTitle={todoList.todoTitle}/>
             <button onClick={addNewTodoList}>+</button>
         </div>
-
 
         <div>
             <input
@@ -73,32 +74,17 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             >+</button>
         </div>
         {error && <div className='error'>{error}</div>}
-        <ul>
-            {filterTasks().map(t=>{
-                const onClickRemoveTaskHandler = () => {
-                    removeTask(todoListIdx, t.taskID)
-                }
-                const onChangeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    changeTaskStatus(todoListIdx, t.taskID, e.currentTarget.checked)
-                }
-
-                return <li key={t.taskID} className={t.isDone ? 'completedTask' : ''}>
-                    <input
-                        type="checkbox"
-                        checked={t.isDone}
-                        onChange={onChangeTaskStatusHandler}
-                    />
-                    <span>{t.taskTitle}</span>
-                    <button onClick={onClickRemoveTaskHandler}>-</button>
-                </li>
-            })}
-        </ul>
-        <div>
-            <button className={filter==='all' ? 'activeButton' : ''} onClick={onChangeFilterValue("all")}>All</button>
-            <button className={filter==='active' ? 'activeButton' : ''} onClick={onChangeFilterValue("active")}>Active</button>
-            <button className={filter==='completed' ? 'activeButton' : ''} onClick={onChangeFilterValue('completed')}>Completed</button>
-        </div>
+        <Tasks
+            todoListIdx={todoListIdx}
+            filteredTasks={filterTasks()}
+            removeTask={removeTask}
+            changeTaskStatus={changeTaskStatus}
+        />
+        <Filters filter={filter} onChangeFilterValue={onChangeFilterValue}/>
     </div>
 }
+
+
+
 
 export default TodoList
