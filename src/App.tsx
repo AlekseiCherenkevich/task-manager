@@ -48,6 +48,12 @@ function App() {
         setTodoLists(todoListsCopy)
     }
     const addNewTodoList = () => setTodoLists([...todoLists, {todoTitle: '...', tasks: []}])
+    const changeTodoListTitle = (todoListIdx: number, todoListTitle: string) => {
+        debugger
+        const todoListsCopy = JSON.parse(JSON.stringify(todoLists))
+        todoListsCopy[todoListIdx].todoTitle = todoListTitle
+        setTodoLists(todoListsCopy)
+    }
 
 
     return (
@@ -60,15 +66,9 @@ function App() {
                     removeTask={removeTask}
                     changeTaskStatus={changeTaskStatus}
                     addNewTodoList={addNewTodoList}
+                    changeTodoListTitle={changeTodoListTitle}
                 />
             } )}
-            {/*<TodoList*/}
-            {/*    todoList={todoLists[0]}*/}
-            {/*    todoListIdx={0}*/}
-            {/*    addNewTask={addNewTask}*/}
-            {/*    removeTask={removeTask}*/}
-            {/*    changeTaskStatus={changeTaskStatus}*/}
-            {/*/>*/}
         </div>
     );
 }
