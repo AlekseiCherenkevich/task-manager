@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import TodoList from "./components/TodoList";
@@ -15,6 +15,8 @@ export type TodoListType = {
 }
 
 function App() {
+
+
     const [todoLists, setTodoLists] = useState<TodoListType[]>([
         {
             todoTitle: 'What to learn',
@@ -25,6 +27,17 @@ function App() {
             ]
         }
     ])
+
+    useEffect(() => localStorage.setItem('todoLists', JSON.stringify(todoLists)), [todoLists])
+    const dataFromLocalStorage = localStorage.getItem('todoLists')
+    useEffect(()=>{
+        if (typeof dataFromLocalStorage === 'string' && dataFromLocalStorage) {
+            setTodoLists(JSON.parse(dataFromLocalStorage))
+        }
+
+    }, [])
+
+
 
     const createTodolistCopy = () => JSON.parse(JSON.stringify(todoLists))
 
@@ -50,6 +63,9 @@ function App() {
         setTodoLists(todoListsCopy)
     }
     const addNewTodoList = () => setTodoLists([...todoLists, {todoTitle: '...', tasks: []}])
+    const removeTodoList = (todoListIdx: number) => {
+        setTodoLists(todoLists.filter((l,index)=>index!==todoListIdx))
+    }
     const changeTodoListTitle = (todoListIdx: number, todoListTitle: string) => {
         const todoListsCopy = createTodolistCopy()
         todoListsCopy[todoListIdx].todoTitle = todoListTitle
@@ -71,11 +87,12 @@ function App() {
                     addNewTask={addNewTask}
                     removeTask={removeTask}
                     changeTaskStatus={changeTaskStatus}
-                    addNewTodoList={addNewTodoList}
                     changeTodoListTitle={changeTodoListTitle}
                     changeTaskTitle={changeTaskTitle}
+                    removeTodoList={removeTodoList}
                 />
             } )}
+            <button className='addTodoListButton' onClick={addNewTodoList}>+</button>
         </div>
     );
 }

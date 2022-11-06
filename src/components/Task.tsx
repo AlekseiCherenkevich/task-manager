@@ -21,7 +21,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
     } = props
 
     const [isEditMode, setIsEditMode] = useState<boolean>(false)
-    const [taskNewTitle, setTaskNewTitle] = useState<string>('')
+    const [taskNewTitle, setTaskNewTitle] = useState<string>(taskTitle)
 
     const activateEditMode = () => setIsEditMode(true)
     const deactivateEditMode = () => setIsEditMode(false)
@@ -41,10 +41,9 @@ export const Task: React.FC<TaskPropsType> = (props) => {
                 changeTaskTitle(todoListIdx, taskID, taskNewTitle)
             }
             deactivateEditMode()
-            setTaskNewTitle('')
+            // setTaskNewTitle('')
         }
     }
-
     return <li key={taskID} className={isDone ? 'completedTask' : ''}>
         <input
             type="checkbox"
@@ -55,6 +54,7 @@ export const Task: React.FC<TaskPropsType> = (props) => {
             ? <input
                 type="text"
                 className='editModeTaskTitleInput'
+                value={taskNewTitle}
                 onChange={onChangeTaskNewTitleHandler}
                 onBlur={deactivateEditMode}
                 onKeyPress={onEnterPressSetTaskNewTitle}
