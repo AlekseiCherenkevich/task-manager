@@ -7,12 +7,18 @@ type TodoListPropsType = {
     addNewTask: (todoListIdx: number, newTaskTitle: string) => void
     removeTask: (todoListIdx: number, taskID: string) => void
     changeTaskStatus: (todoListIdx: number, taskID: string, status: boolean) => void
+    addNewTodoList: () => void
 }
 
 type FilterValuesType = 'all' | 'completed' | 'active'
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
-    const {todoList, todoListIdx, addNewTask, removeTask, changeTaskStatus} = props
+    const {todoList,
+        todoListIdx,
+        addNewTask,
+        removeTask,
+        changeTaskStatus,
+        addNewTodoList} = props
 
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
     const [error, setError] = useState<string>('')
@@ -50,7 +56,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
     return <div>
         <div className='topSection'>
             <h3>{todoList.todoTitle}</h3>
-            <button>+</button>
+            <button onClick={addNewTodoList}>+</button>
         </div>
 
 

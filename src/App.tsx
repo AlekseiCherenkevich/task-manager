@@ -47,17 +47,32 @@ function App() {
         })
         setTodoLists(todoListsCopy)
     }
+    const addNewTodoList = () => {
+        setTodoLists([...todoLists, {todoTitle: '...', tasks: [
+            // {taskID: v1(), taskTitle: '', isDone: false}
+            ]}])
+    }
 
 
     return (
         <div className="App">
-            <TodoList
-                todoList={todoLists[0]}
-                todoListIdx={0}
-                addNewTask={addNewTask}
-                removeTask={removeTask}
-                changeTaskStatus={changeTaskStatus}
-            />
+            {todoLists.map((t, index)=> {
+                return <TodoList
+                    todoList={t}
+                    todoListIdx={index}
+                    addNewTask={addNewTask}
+                    removeTask={removeTask}
+                    changeTaskStatus={changeTaskStatus}
+                    addNewTodoList={addNewTodoList}
+                />
+            } )}
+            {/*<TodoList*/}
+            {/*    todoList={todoLists[0]}*/}
+            {/*    todoListIdx={0}*/}
+            {/*    addNewTask={addNewTask}*/}
+            {/*    removeTask={removeTask}*/}
+            {/*    changeTaskStatus={changeTaskStatus}*/}
+            {/*/>*/}
         </div>
     );
 }
