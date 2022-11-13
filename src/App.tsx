@@ -29,6 +29,7 @@ function App() {
     ])
 
     useEffect(() => localStorage.setItem('todoLists', JSON.stringify(todoLists)), [todoLists])
+
     const dataFromLocalStorage = localStorage.getItem('todoLists')
     useEffect(()=>{
         if (typeof dataFromLocalStorage === 'string' && dataFromLocalStorage) {
