@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/todolist-do-avtomatizma/static/css/main.b66c4d7f.css",
+    "main.js": "/todolist-do-avtomatizma/static/js/main.02485328.js",
+    "index.html": "/todolist-do-avtomatizma/index.html",
+    "main.b66c4d7f.css.map": "/todolist-do-avtomatizma/static/css/main.b66c4d7f.css.map",
+    "main.02485328.js.map": "/todolist-do-avtomatizma/static/js/main.02485328.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b66c4d7f.css",
+    "static/js/main.02485328.js"
+  ]
+}
