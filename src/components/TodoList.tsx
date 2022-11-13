@@ -15,6 +15,7 @@ type TodoListPropsType = {
     removeTodoList: (todoListIdx: number) => void
 }
 export type FilterValuesType = 'all' | 'completed' | 'active'
+export type SortValuesType = 'default' | 'A-z' | 'Z-a'
 
 const TodoList: React.FC<TodoListPropsType> = (props) => {
     const {todoList,
@@ -29,6 +30,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
     const [error, setError] = useState<string>('')
     const [filter, setFilter] = useState<FilterValuesType>('all')
+    const [sort, setSort] = useState<SortValuesType>('default')
 
     const clearError = () => setError('')
     const onChangeNewTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,6 +51,7 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
         }
     }
     const onChangeFilterValue = (filter: FilterValuesType) => () => setFilter(filter)
+    const onChangeSortValue = (sort: SortValuesType) => () => setSort(sort)
     const filterTasks = () => {
         if (filter === 'completed') {
             return todoList.tasks.filter(t=>t.isDone)
@@ -57,6 +60,16 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             return todoList.tasks.filter(t=>!t.isDone)
         }
         return todoList.tasks
+    }
+    const sortTasks = () => {
+        const tasksCopy = [...filterTasks()]
+        if (sort === "A-z") {
+            return tasksCopy.sort((a,b)=> a.taskTitle.localeCompare(b.taskTitle))
+        }
+        if (sort === 'Z-a') {
+            return tasksCopy.sort((a,b)=> b.taskTitle.localeCompare(a.taskTitle))
+        }
+        return tasksCopy
     }
 
 
@@ -82,9 +95,14 @@ const TodoList: React.FC<TodoListPropsType> = (props) => {
             >+</button>
         </div>
         {error && <div className='error'>{error}</div>}
+        <div>
+            <button onClick={onChangeSortValue("default")}>Default</button>
+            <button onClick={onChangeSortValue("A-z")}>A-z</button>
+            <button onClick={onChangeSortValue("Z-a")}>Z-a</button>
+        </div>
         <Tasks
             todoListIdx={todoListIdx}
-            filteredTasks={filterTasks()}
+            filteredSortedTasks={sortTasks()}
             removeTask={removeTask}
             changeTaskStatus={changeTaskStatus}
             changeTaskTitle={changeTaskTitle}
