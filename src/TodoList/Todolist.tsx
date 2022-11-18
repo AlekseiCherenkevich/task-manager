@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {TaskType} from "../App";
 import {Input} from "../common/Input/Input";
 import {Button} from "../common/Button/Button";
@@ -10,6 +10,7 @@ type TodoListPropsType = {
     addNewTask: (todoListID: string) => (taskTitle: string) => void
     removeTodoList: (todoListID: string) => void
     removeTask: (todoListID: string, taskID: string) => void
+    changeTaskStatus: (todoListID: string, taskID: string, isDone: boolean) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
@@ -32,10 +33,11 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         <ul>
             {props.tasks.map(t=>{
                 const onRemoveTaskHandler = () => props.removeTask(props.todoListID, t.id)
+                const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(props.todoListID, t.id, e.currentTarget.checked)
 
                 return <li key={t.id}>
 
-                    <input type="checkbox" checked={t.isDone}/>
+                    <input type="checkbox" checked={t.isDone} onChange={onChangeTaskStatus}/>
                     <span>{t.title}</span>
                     <Button title={'x'} callback={onRemoveTaskHandler}/>
                 </li>
