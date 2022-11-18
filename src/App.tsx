@@ -23,7 +23,7 @@ function App() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let [todolists, setTodolists] = useState([
+    let [todolists, setTodolists] = useState<TodoListType[]>([
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
     ])
@@ -47,6 +47,10 @@ function App() {
     const addNewTask = (todoListID: string) => (taskTitle: string) => {
         setTasks({...tasks, [todoListID]:[{id: v1(), title: taskTitle, isDone: false}, ...tasks[todoListID]]})
     }
+    const removeTodoList = (todoListID: string) => {
+        setTodolists(todolists.filter(tl=>tl.id!==todoListID))
+        delete tasks[todoListID]
+    }
 
 
 
@@ -63,6 +67,7 @@ function App() {
                     todoTitle={tl.title}
                     tasks={tasks[tl.id]}
                     addNewTask={addNewTask}
+                    removeTodoList={removeTodoList}
                 />
             })}
 

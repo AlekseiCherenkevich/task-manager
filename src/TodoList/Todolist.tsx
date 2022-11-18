@@ -1,20 +1,22 @@
 import React from 'react';
 import {TaskType} from "../App";
 import {Input} from "../common/Input/Input";
+import {Button} from "../common/Button/Button";
 
 type TodoListPropsType = {
     todoListID: string
     todoTitle: string
     tasks: TaskType[]
     addNewTask: (todoListID: string) => (taskTitle: string) => void
+    removeTodoList: (todoListID: string) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
-
+    const onRemoveTodoListHandler = () => props.removeTodoList(props.todoListID)
 
     return <div>
         <h3>{props.todoTitle}
-            <button >x</button>
+            <Button title={'x'} callback={onRemoveTodoListHandler}/>
         </h3>
         <div>
             <Input callback={props.addNewTask(props.todoListID)}/>
