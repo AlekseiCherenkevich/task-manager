@@ -1,9 +1,12 @@
 import React from 'react';
 import {TaskType} from "../App";
+import {Input} from "../common/Input/Input";
 
 type TodoListPropsType = {
+    todoListID: string
     todoTitle: string
     tasks: TaskType[]
+    addNewTask: (todoListID: string) => (taskTitle: string) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
@@ -14,8 +17,7 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
             <button >x</button>
         </h3>
         <div>
-            <input/>
-            <button >+</button>
+            <Input callback={props.addNewTask(props.todoListID)}/>
 
         </div>
         <div>
@@ -37,5 +39,6 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         </div>
     </div>
 }
+
 
 
