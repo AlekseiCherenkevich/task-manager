@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {Button} from "../Button/Button";
 
 type InputPropsType = {
     placeholder?: string
@@ -33,7 +34,7 @@ export const Input: React.FC<InputPropsType> = (props) => {
             onBlur={onBlurHandler}
 
         />
-        <button onClick={onClickHandler}>+</button>
+        <Button onClick={onClickHandler}>+</Button>
         {error && <div>{error}</div>}
     </>
 }

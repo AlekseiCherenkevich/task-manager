@@ -57,6 +57,16 @@ function App() {
     const changeTaskStatus = (todoListID: string, taskID: string, isDone: boolean) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(t=>t.id===taskID?{...t, isDone:isDone}:t)})
     }
+    const filterTasks = (tasks: TaskType[], filter: FilterValuesType) => {
+        switch (filter) {
+            case "completed": return   tasks.filter(t=>t.isDone)
+            case "active": return  tasks.filter(t=>!t.isDone)
+            default: return tasks
+        }
+    }
+    const changeFilterValue = (todoListID: string, filterValue: FilterValuesType) => {
+        setTodolists(todolists.map(tl=>tl.id===todoListID?{...tl, filter: filterValue}: tl))
+    }
 
 
 
@@ -66,16 +76,17 @@ function App() {
                 <Input placeholder={'Enter new title'} callback={addNewTodoList}/>
             </div>
             {todolists.map(tl=>{
-
+                const filteredTasks = filterTasks(tasks[tl.id], tl.filter)
 
                 return  <Todolist
                     todoListID={tl.id}
                     todoTitle={tl.title}
-                    tasks={tasks[tl.id]}
+                    tasks={filteredTasks}
                     addNewTask={addNewTask}
                     removeTodoList={removeTodoList}
                     removeTask={removeTask}
                     changeTaskStatus={changeTaskStatus}
+                    changeFilterValue={changeFilterValue}
                 />
             })}
 
