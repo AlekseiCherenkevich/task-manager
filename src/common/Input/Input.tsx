@@ -15,6 +15,7 @@ export const Input: React.FC<InputPropsType> = (props) => {
         if (value?.trim().length) {
             props.callback(value)
             setError('')
+            setValue('')
         } else {
             setError('Field is required!')
         }
