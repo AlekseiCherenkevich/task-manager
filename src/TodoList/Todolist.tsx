@@ -9,10 +9,12 @@ type TodoListPropsType = {
     tasks: TaskType[]
     addNewTask: (todoListID: string) => (taskTitle: string) => void
     removeTodoList: (todoListID: string) => void
+    removeTask: (todoListID: string, taskID: string) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
     const onRemoveTodoListHandler = () => props.removeTodoList(props.todoListID)
+
 
     return <div>
         <h3>{props.todoTitle}
@@ -28,11 +30,16 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
             <button >Z-a</button>
         </div>
         <ul>
-            {props.tasks.map(t=><li key={t.id}>
-                <input type="checkbox" checked={t.isDone}/>
-                <span>{t.title}</span>
-                <button>x</button>
-            </li>)}
+            {props.tasks.map(t=>{
+                const onRemoveTaskHandler = () => props.removeTask(props.todoListID, t.id)
+
+                return <li key={t.id}>
+
+                    <input type="checkbox" checked={t.isDone}/>
+                    <span>{t.title}</span>
+                    <Button title={'x'} callback={onRemoveTaskHandler}/>
+                </li>
+            })}
         </ul>
         <div>
             <button >All</button>
