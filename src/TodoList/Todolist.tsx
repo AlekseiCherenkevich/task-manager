@@ -4,20 +4,19 @@ import {Input} from "../common/Input/Input";
 import {Button} from "../common/Button/Button";
 
 type TodoListPropsType = {
-    todoListID: string
     todoTitle: string
     tasks: TaskType[]
-    addNewTask: (todoListID: string) => (taskTitle: string) => void
-    removeTodoList: (todoListID: string) => void
-    removeTask: (todoListID: string, taskID: string) => void
-    changeTaskStatus: (todoListID: string, taskID: string, isDone: boolean) => void
-    changeFilterValue: (todoListID: string, filterValue: FilterValuesType) => void
+    addNewTask: (taskTitle: string) => void
+    removeTodoList: () => void
+    removeTask: (taskID: string) => void
+    changeTaskStatus: (taskID: string, isDone: boolean) => void
+    changeFilterValue: (filterValue: FilterValuesType) => void
     changeSortValue: (sort: SortValuesType) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
-    const onRemoveTodoListHandler = () => props.removeTodoList(props.todoListID)
-    const onChangeFilterHandler = (filter: FilterValuesType) => () => props.changeFilterValue(props.todoListID, filter)
+    const onRemoveTodoListHandler = () => props.removeTodoList()
+    const onChangeFilterHandler = (filter: FilterValuesType) => () => props.changeFilterValue(filter)
     const onChangeSortHandler = (sort: SortValuesType) => () => props.changeSortValue(sort)
 
     return <div>
@@ -25,7 +24,7 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
             <Button onClick={onRemoveTodoListHandler}>x</Button>
         </h3>
         <div>
-            <Input callback={props.addNewTask(props.todoListID)}/>
+            <Input callback={props.addNewTask}/>
 
         </div>
         <div>
@@ -35,8 +34,8 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         </div>
         <ul>
             {props.tasks.map(t=>{
-                const onRemoveTaskHandler = () => props.removeTask(props.todoListID, t.id)
-                const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(props.todoListID, t.id, e.currentTarget.checked)
+                const onRemoveTaskHandler = () => props.removeTask(t.id)
+                const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked)
 
                 return <li key={t.id}>
 

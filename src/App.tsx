@@ -48,14 +48,14 @@ function App() {
     const addNewTask = (todoListID: string) => (taskTitle: string) => {
         setTasks({...tasks, [todoListID]: [{id: v1(), title: taskTitle, isDone: false}, ...tasks[todoListID]]})
     }
-    const removeTodoList = (todoListID: string) => {
+    const removeTodoList = (todoListID: string) => () => {
         setTodolists(todolists.filter(tl => tl.id !== todoListID))
         delete tasks[todoListID]
     }
-    const removeTask = (todoListID: string, taskID: string) => {
+    const removeTask = (todoListID: string) => (taskID: string) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].filter(t => t.id !== taskID)})
     }
-    const changeTaskStatus = (todoListID: string, taskID: string, isDone: boolean) => {
+    const changeTaskStatus = (todoListID: string) => (taskID: string, isDone: boolean) => {
         setTasks({...tasks, [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, isDone: isDone} : t)})
     }
     const filterTasks = (tasks: TaskType[], filter: FilterValuesType) => {
@@ -68,7 +68,7 @@ function App() {
                 return tasks
         }
     }
-    const changeFilterValue = (todoListID: string, filterValue: FilterValuesType) => {
+    const changeFilterValue = (todoListID: string) => (filterValue: FilterValuesType) => {
         setTodolists(todolists.map(tl => tl.id === todoListID ? {...tl, filter: filterValue} : tl))
     }
     const sortTasks = (tasks: TaskType[], sort: SortValuesType) => {
@@ -98,14 +98,13 @@ function App() {
                 const sortedTasks = sortTasks(filteredTasks, tl.sort)
 
                 return <Todolist
-                    todoListID={tl.id}
                     todoTitle={tl.title}
                     tasks={sortedTasks}
-                    addNewTask={addNewTask}
-                    removeTodoList={removeTodoList}
-                    removeTask={removeTask}
-                    changeTaskStatus={changeTaskStatus}
-                    changeFilterValue={changeFilterValue}
+                    addNewTask={addNewTask(tl.id)}
+                    removeTodoList={removeTodoList(tl.id)}
+                    removeTask={removeTask(tl.id)}
+                    changeTaskStatus={changeTaskStatus(tl.id)}
+                    changeFilterValue={changeFilterValue(tl.id)}
                     changeSortValue={changeSortValue(tl.id)}
                 />
             })}
