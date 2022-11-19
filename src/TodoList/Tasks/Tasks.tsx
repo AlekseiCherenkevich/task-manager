@@ -6,9 +6,11 @@ type TasksPropsType = {
     tasks: TaskType[]
     removeTask: (taskID: string) => void
     changeTaskStatus: (taskID: string, isDone: boolean) => void
+    changeTaskTitle: (taskID: string) => (taskTitle: string) => void
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskStatus}) => {
+export const Tasks: React.FC<TasksPropsType> = (props) => {
+    const {tasks, removeTask, changeTaskStatus, changeTaskTitle} = props
     return <ul>
         {tasks.map(t => {
             const onRemoveTaskHandler = () => removeTask(t.id)
@@ -19,6 +21,7 @@ export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskSt
                          isDone={t.isDone}
                          onRemoveTaskHandler={onRemoveTaskHandler}
                          onChangeTaskStatus={onChangeTaskStatus}
+                         changeTaskTitle={changeTaskTitle(t.id)}
             />
         })}
     </ul>
