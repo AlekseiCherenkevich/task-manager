@@ -41,5 +41,5 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({value, callback})
             />
             {error && <div>{error}</div>}
         </div>
-        : <span style={{fontSize: '20px', fontWeight: 'bold'}} onDoubleClick={onDoubleClickHandler}>{value}</span>
+        : <span onDoubleClick={onDoubleClickHandler}>{value}</span>
 }
