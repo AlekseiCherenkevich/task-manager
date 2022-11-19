@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {v1} from 'uuid';
 import {Todolist} from './TodoList/Todolist';
@@ -27,20 +27,38 @@ function App() {
     let todolistId1 = v1();
     let todolistId2 = v1();
 
-    let [todolists, setTodolists] = useState<TodoListType[]>([
-        {id: todolistId1, title: "What to learn", filter: "all", sort: "default"},
-        {id: todolistId2, title: "What to buy", filter: "all", sort: "default"}
-    ])
-    let [tasks, setTasks] = useState<TasksType>({
-        [todolistId1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true}
-        ],
-        [todolistId2]: [
-            {id: v1(), title: "Milk", isDone: true},
-            {id: v1(), title: "React Book", isDone: true}
-        ]
-    });
+    let [todolists, setTodolists] = useState<TodoListType[]>(checkLocalStorage('todoLists'))
+    let [tasks, setTasks] = useState<TasksType>(checkLocalStorage('tasks'));
+
+    useEffect(()=>{
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+        localStorage.setItem('todoLists', JSON.stringify(todolists))
+    },[tasks, todolists])
+
+    function checkLocalStorage(key: string) {
+        const dataFromLocalStorage = localStorage.getItem(key)
+        if (dataFromLocalStorage) {
+            return JSON.parse(dataFromLocalStorage)
+        } else {
+            if (key === 'tasks') {
+                return {
+                    [todolistId1]: [
+                        {id: v1(), title: "HTML&CSS", isDone: true},
+                        {id: v1(), title: "JS", isDone: true}
+                    ],
+                    [todolistId2]: [
+                        {id: v1(), title: "Milk", isDone: true},
+                        {id: v1(), title: "React Book", isDone: true}
+                    ]
+                }
+            } else {
+                return [
+                    {id: todolistId1, title: "What to learn", filter: "all", sort: "default"},
+                    {id: todolistId2, title: "What to buy", filter: "all", sort: "default"}
+                ]
+            }
+        }
+    }
 
     const addNewTodoList = (todoTitle: string) => {
         const newTodoID = v1()
