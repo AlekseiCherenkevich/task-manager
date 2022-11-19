@@ -1,7 +1,10 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {FilterValuesType, SortValuesType, TaskType} from "../App";
 import {Input} from "../common/Input/Input";
-import {Button} from "../common/Button/Button";
+import {TodoListTitle} from "./TodoListTitle/TodoListTitle";
+import {SortingButtons} from "./SortingButtons/SortingButtons";
+import {FilteringButtons} from "./FilteringButtons/FilteringButtons";
+import {Tasks} from "./Tasks/Tasks";
 
 type TodoListPropsType = {
     todoTitle: string
@@ -15,43 +18,37 @@ type TodoListPropsType = {
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
-    const onRemoveTodoListHandler = () => props.removeTodoList()
-    const onChangeFilterHandler = (filter: FilterValuesType) => () => props.changeFilterValue(filter)
-    const onChangeSortHandler = (sort: SortValuesType) => () => props.changeSortValue(sort)
+    const {todoTitle,
+        tasks,
+        addNewTask,
+        removeTodoList,
+        removeTask,
+        changeTaskStatus,
+        changeFilterValue,
+        changeSortValue} = props
+    const onRemoveTodoListHandler = () => removeTodoList()
+    const onChangeFilterHandler = (filter: FilterValuesType) => () => changeFilterValue(filter)
+    const onChangeSortHandler = (sort: SortValuesType) => () => changeSortValue(sort)
 
     return <div>
-        <h3>{props.todoTitle}
-            <Button onClick={onRemoveTodoListHandler}>x</Button>
-        </h3>
+        <TodoListTitle todoTitle={todoTitle} onRemoveTodoListHandler={onRemoveTodoListHandler}/>
         <div>
-            <Input callback={props.addNewTask}/>
-
+            <Input callback={addNewTask}/>
         </div>
-        <div>
-            <button onClick={onChangeSortHandler("default")}>Default</button>
-            <button onClick={onChangeSortHandler("A-z")}>A-z</button>
-            <button onClick={onChangeSortHandler("Z-a")}>Z-a</button>
-        </div>
-        <ul>
-            {props.tasks.map(t=>{
-                const onRemoveTaskHandler = () => props.removeTask(t.id)
-                const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(t.id, e.currentTarget.checked)
-
-                return <li key={t.id}>
-
-                    <input type="checkbox" checked={t.isDone} onChange={onChangeTaskStatus}/>
-                    <span>{t.title}</span>
-                    <Button onClick={onRemoveTaskHandler}>x</Button>
-                </li>
-            })}
-        </ul>
-        <div>
-            <Button onClick={onChangeFilterHandler('all')}>All</Button>
-            <Button onClick={onChangeFilterHandler('active')}>Active</Button>
-            <Button onClick={onChangeFilterHandler('completed')}>Completed</Button>
-        </div>
+        <SortingButtons onChangeSortHandler={onChangeSortHandler}/>
+        <Tasks tasks={tasks} removeTask={removeTask} changeTaskStatus={changeTaskStatus}/>
+        <FilteringButtons onChangeFilterHandler={onChangeFilterHandler}/>
     </div>
 }
+
+
+
+
+
+
+
+
+
 
 
 
