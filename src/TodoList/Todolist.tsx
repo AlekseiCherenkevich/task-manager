@@ -15,6 +15,7 @@ type TodoListPropsType = {
     changeTaskStatus: (taskID: string, isDone: boolean) => void
     changeFilterValue: (filterValue: FilterValuesType) => void
     changeSortValue: (sort: SortValuesType) => void
+    changeTodoTitleValue: (title: string) => void
 }
 
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
@@ -25,13 +26,17 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         removeTask,
         changeTaskStatus,
         changeFilterValue,
-        changeSortValue} = props
+        changeSortValue,
+        changeTodoTitleValue} = props
     const onRemoveTodoListHandler = () => removeTodoList()
     const onChangeFilterHandler = (filter: FilterValuesType) => () => changeFilterValue(filter)
     const onChangeSortHandler = (sort: SortValuesType) => () => changeSortValue(sort)
 
     return <div>
-        <TodoListTitle todoTitle={todoTitle} onRemoveTodoListHandler={onRemoveTodoListHandler}/>
+        <TodoListTitle todoTitle={todoTitle}
+                       onRemoveTodoListHandler={onRemoveTodoListHandler}
+                       changeTodoTitleValue={changeTodoTitleValue}
+        />
         <div>
             <Input callback={addNewTask}/>
         </div>

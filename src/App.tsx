@@ -86,7 +86,10 @@ function App() {
         ...tl,
         sort: sort
     } : tl))
-
+    const changeTodoTitleValue = (todoListID: string) => (title: string) => setTodolists(todolists.map(tl => tl.id === todoListID ? {
+        ...tl,
+        title: title
+    } : tl))
 
     return (
         <div className="App">
@@ -106,6 +109,7 @@ function App() {
                     changeTaskStatus={changeTaskStatus(tl.id)}
                     changeFilterValue={changeFilterValue(tl.id)}
                     changeSortValue={changeSortValue(tl.id)}
+                    changeTodoTitleValue={changeTodoTitleValue(tl.id)}
                 />
             })}
 
