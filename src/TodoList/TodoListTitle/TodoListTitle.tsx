@@ -1,6 +1,8 @@
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 import React from "react";
-import {Button} from "../../common/Button/Button";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
+
 
 type TodoListTitlePropsType = {
     todoTitle: string
@@ -13,7 +15,9 @@ export const TodoListTitle: React.FC<TodoListTitlePropsType> = (props) => {
     return <div><EditableSpan value={todoTitle}
                              callback={changeTodoTitleValue}
     />
-        <Button onClick={onRemoveTodoListHandler}>x</Button>
+        <IconButton aria-label="delete" size="small" onClick={onRemoveTodoListHandler}>
+            <DeleteIcon fontSize="inherit" color="primary"/>
+        </IconButton>
     </div>
 }
 

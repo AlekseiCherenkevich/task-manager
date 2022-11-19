@@ -1,4 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {TextField} from "@mui/material";
 
 type EditableSpanPropsType = {
     value: string
@@ -32,12 +33,17 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({value, callback})
 
     return edit
         ? <div>
-            <input type="text"
-                   value={localValue}
-                   autoFocus={true}
-                   onKeyPress={onKeyPressHandler}
-                   onChange={onChangeValueHandler}
-                   onBlur={onBlurHandler}
+            <TextField id="outlined-basic"
+                       label="Change text"
+                       variant="outlined"
+                       size="small"
+                       value={localValue}
+                       autoFocus={true}
+                       onKeyPress={onKeyPressHandler}
+                       onChange={onChangeValueHandler}
+                       onBlur={onBlurHandler}
+                       error={!!error}
+                       helperText={error}
             />
             {error && <div>{error}</div>}
         </div>

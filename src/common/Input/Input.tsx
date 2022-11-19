@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button} from "../Button/Button";
+import {IconButton, TextField} from "@mui/material";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 type InputPropsType = {
     placeholder?: string
@@ -24,17 +25,22 @@ export const Input: React.FC<InputPropsType> = (props) => {
     const onBlurHandler = () => setError('')
 
     return <>
-        <input
+        <TextField
+            id="outlined-basic"
+            label="Enter title"
+            variant="outlined"
+            size="small"
             value={value}
-            type="text"
             autoFocus={true}
             onChange={onChangeHandler}
             onKeyPress={onKeyPressHandler}
             placeholder={props.placeholder}
             onBlur={onBlurHandler}
-
+            error={!!error}
+            helperText={error}
         />
-        <Button onClick={onClickHandler}>+</Button>
-        {error && <div>{error}</div>}
+        <IconButton onClick={onClickHandler}>
+            <AddCircleOutlineIcon fontSize="inherit" color="primary"/>
+        </IconButton>
     </>
 }

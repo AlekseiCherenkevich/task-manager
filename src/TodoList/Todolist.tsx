@@ -9,6 +9,8 @@ import {Tasks} from "./Tasks/Tasks";
 type TodoListPropsType = {
     todoTitle: string
     tasks: TaskType[]
+    filter: FilterValuesType
+    sort: SortValuesType
     addNewTask: (taskTitle: string) => void
     removeTodoList: () => void
     removeTask: (taskID: string) => void
@@ -22,6 +24,8 @@ type TodoListPropsType = {
 export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
     const {todoTitle,
         tasks,
+        filter,
+        sort,
         addNewTask,
         removeTodoList,
         removeTask,
@@ -42,9 +46,9 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         <div>
             <Input callback={addNewTask}/>
         </div>
-        <SortingButtons onChangeSortHandler={onChangeSortHandler}/>
+        <SortingButtons sort={sort} onChangeSortHandler={onChangeSortHandler}/>
         <Tasks tasks={tasks} removeTask={removeTask} changeTaskStatus={changeTaskStatus} changeTaskTitle={changeTaskTitle}/>
-        <FilteringButtons onChangeFilterHandler={onChangeFilterHandler}/>
+        <FilteringButtons filter={filter} onChangeFilterHandler={onChangeFilterHandler}/>
     </div>
 }
 

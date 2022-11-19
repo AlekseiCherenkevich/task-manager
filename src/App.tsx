@@ -3,6 +3,8 @@ import './App.css';
 import {v1} from 'uuid';
 import {Todolist} from './TodoList/Todolist';
 import {Input} from "./common/Input/Input";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 
 type TodoListType = {
     id: string
@@ -95,32 +97,57 @@ function App() {
         [todoListID]: tasks[todoListID].map(t => t.id === taskID ? {...t, title: taskTitle} : t)
     })
 
+
     return (
         <div className="App">
-            <div style={{height: '30px', marginTop: '20px'}}>
-                <Input placeholder={'Enter new title'} callback={addNewTodoList}/>
-            </div>
-            {todolists.map(tl => {
-                const filteredTasks = filterTasks(tasks[tl.id], tl.filter)
-                const sortedTasks = sortTasks(filteredTasks, tl.sort)
-
-                return <Todolist
-                    todoTitle={tl.title}
-                    tasks={sortedTasks}
-                    addNewTask={addNewTask(tl.id)}
-                    removeTodoList={removeTodoList(tl.id)}
-                    removeTask={removeTask(tl.id)}
-                    changeTaskStatus={changeTaskStatus(tl.id)}
-                    changeFilterValue={changeFilterValue(tl.id)}
-                    changeSortValue={changeSortValue(tl.id)}
-                    changeTodoTitleValue={changeTodoTitleValue(tl.id)}
-                    changeTaskTitle={changeTaskTitle(tl.id)}
-                />
-            })}
-
-
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton
+                        size="large"
+                        edge="start"
+                        color="inherit"
+                        aria-label="menu"
+                        sx={{mr: 2}}
+                    >
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: '20px'}}>
+                    <Input callback={addNewTodoList}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todolists.map(tl => {
+                        const filteredTasks = filterTasks(tasks[tl.id], tl.filter)
+                        const sortedTasks = sortTasks(filteredTasks, tl.sort)
+                        return <Grid item>
+                            <Paper style={{padding: '20px'}}>
+                                <Todolist
+                                    todoTitle={tl.title}
+                                    tasks={sortedTasks}
+                                    filter={tl.filter}
+                                    sort={tl.sort}
+                                    addNewTask={addNewTask(tl.id)}
+                                    removeTodoList={removeTodoList(tl.id)}
+                                    removeTask={removeTask(tl.id)}
+                                    changeTaskStatus={changeTaskStatus(tl.id)}
+                                    changeFilterValue={changeFilterValue(tl.id)}
+                                    changeSortValue={changeSortValue(tl.id)}
+                                    changeTodoTitleValue={changeTodoTitleValue(tl.id)}
+                                    changeTaskTitle={changeTaskTitle(tl.id)}
+                                />
+                            </Paper>
+                        </Grid>
+                    })}
+                </Grid>
+            </Container>
         </div>
-    );
+    )
 }
 
 export default App;

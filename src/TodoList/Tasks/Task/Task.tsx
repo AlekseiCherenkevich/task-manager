@@ -1,6 +1,8 @@
 import React, {ChangeEvent} from "react";
-import {Button} from "../../../common/Button/Button";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
+import {Checkbox} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TaskPropsType = {
     title: string
@@ -11,10 +13,12 @@ type TaskPropsType = {
 }
 
 export const Task: React.FC<TaskPropsType> = (props) => {
-    return <li>
-        <input type="checkbox" checked={props.isDone} onChange={props.onChangeTaskStatus}/>
-        {/*<span>{props.title}</span>*/}
-        <EditableSpan value={props.title} callback={props.changeTaskTitle}/>
-        <Button onClick={props.onRemoveTaskHandler}>x</Button>
-    </li>
+    const {title, isDone, onRemoveTaskHandler, onChangeTaskStatus, changeTaskTitle} = props
+    return <div>
+        <Checkbox checked={isDone} onChange={onChangeTaskStatus}/>
+        <EditableSpan value={title} callback={changeTaskTitle}/>
+        <IconButton onClick={onRemoveTaskHandler} size="small">
+            <DeleteIcon fontSize="inherit" color="primary"/>
+        </IconButton>
+    </div>
 }
