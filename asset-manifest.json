@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/todolist-do-avtomatizma/static/css/main.b66c4d7f.css",
-    "main.js": "/todolist-do-avtomatizma/static/js/main.e446bdd1.js",
+    "main.css": "/todolist-do-avtomatizma/static/css/main.e6c13ad2.css",
+    "main.js": "/todolist-do-avtomatizma/static/js/main.b146da53.js",
     "index.html": "/todolist-do-avtomatizma/index.html",
-    "main.b66c4d7f.css.map": "/todolist-do-avtomatizma/static/css/main.b66c4d7f.css.map",
-    "main.e446bdd1.js.map": "/todolist-do-avtomatizma/static/js/main.e446bdd1.js.map"
+    "main.e6c13ad2.css.map": "/todolist-do-avtomatizma/static/css/main.e6c13ad2.css.map",
+    "main.b146da53.js.map": "/todolist-do-avtomatizma/static/js/main.b146da53.js.map"
   },
   "entrypoints": [
-    "static/css/main.b66c4d7f.css",
-    "static/js/main.e446bdd1.js"
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.b146da53.js"
   ]
 }
