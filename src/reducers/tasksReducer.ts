@@ -14,18 +14,25 @@ export const tasksReducer = (state: TasksType, action: ActionsType) => {
             {...state,
                 [action.payload.todoListID]: state[action.payload.todoListID].filter(t => t.id !== action.payload.taskID)}
         );
-        case "CHANGE_TASK_STATUS": return ({...state, [action.payload.todoListID]: state[action.payload.todoListID].map(t => t.id === action.payload.taskID ? {...t, isDone: action.payload.isDone} : t)})
+        case "CHANGE_TASK_STATUS": return (
+            {...state, [action.payload.todoListID]: state[action.payload.todoListID].map(t => t.id === action.payload.taskID ? {...t, isDone: action.payload.isDone} : t)})
+        case "CHANGE_TASK_TITLE": return (
+            {
+            ...state,
+            [action.payload.todoListID]: state[action.payload.todoListID].map(t => t.id === action.payload.taskID ? {...t, title: action.payload.taskTitle} : t)
+            })
     }
 
     return state
 }
 
-type ActionsType = AddNewTask | RemoveTask | ChangeTaskStatus
+type ActionsType = AddNewTaskType | RemoveTaskType | ChangeTaskStatusType | ChangeTaskTitleType
 
 
-type AddNewTask = ReturnType<typeof addNewTaskAC>
-type RemoveTask = ReturnType<typeof removeTaskAC>
-type ChangeTaskStatus = ReturnType<typeof changeTaskStatusAC>
+type AddNewTaskType = ReturnType<typeof addNewTaskAC>
+type RemoveTaskType = ReturnType<typeof removeTaskAC>
+type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
+type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 
 
 export const addNewTaskAC = (todoListID: string, taskTitle: string) => (
@@ -37,3 +44,5 @@ export const removeTaskAC = (todoListID: string, taskID: string) => (
 export const changeTaskStatusAC = (todoListID: string, taskID: string, isDone: boolean) => (
     {type: "CHANGE_TASK_STATUS", payload: {todoListID, taskID, isDone}} as const
 )
+export const changeTaskTitleAC = (todoListID: string, taskID: string, taskTitle: string) => (
+    {type: "CHANGE_TASK_TITLE", payload: {todoListID, taskID, taskTitle}} as const)
