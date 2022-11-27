@@ -33,7 +33,8 @@ test('after removing task length of tasks array should be decremented',()=>{
 })
 test('changed task status should be correct', ()=>{
     const taskID = state[todolistId2][0].id
-    const updatedState = tasksReducer(state, {type: "CHANGE_TASK_STATUS", payload: {todoListID: todolistId2, taskID: taskID, isDone: false}})
+    const updatedState = tasksReducer(state, {
+        type: "CHANGE_TASK_STATUS", payload: {todoListID: todolistId2, taskID: taskID, isDone: false}})
 
     expect(updatedState[todolistId2][0].isDone).toBe(false)
 })
@@ -51,5 +52,6 @@ test('after creating new todo List tasks array should be empty', ()=>{
     expect(updatedState[newTodoListID].length).toBe(0)
 })
 test('dispatching incorrect action should throw error', ()=>{
+    // @ts-ignore
     expect(()=>tasksReducer(state, {type: 'FAKE'})).toThrowError()
 })
