@@ -34,7 +34,7 @@ type AddNewTaskType = ReturnType<typeof addNewTaskAC>
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
-type setNewToloListIDToKeyType = ReturnType<typeof setNewToloListIDToKeyAC>
+type setNewToloListIDToKeyType = ReturnType<typeof setNewTodoListIDToKeyAC>
 
 
 export const addNewTaskAC = (todoListID: string, taskTitle: string) => (
@@ -48,5 +48,5 @@ export const changeTaskStatusAC = (todoListID: string, taskID: string, isDone: b
 )
 export const changeTaskTitleAC = (todoListID: string, taskID: string, taskTitle: string) => (
     {type: "CHANGE_TASK_TITLE", payload: {todoListID, taskID, taskTitle}} as const)
-export const setNewToloListIDToKeyAC = (todoListID: string) => (
+export const setNewTodoListIDToKeyAC = (todoListID: string) => (
     {type: "SET_NEW_TODO_LIST_ID_TO_KEY", payload: {todoListID}} as const)
