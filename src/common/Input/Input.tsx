@@ -8,7 +8,7 @@ type InputPropsType = {
 }
 
 export const Input: React.FC<InputPropsType> = (props) => {
-    const [value, setValue] = useState<string>()
+    const [value, setValue] = useState('')
     const [error, setError] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setValue(e.currentTarget.value)
