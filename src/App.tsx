@@ -10,14 +10,14 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
-    setNewToloListIDToKeyAC,
+    setNewTodoListIDToKeyAC,
     tasksReducer
 } from "./reducers/tasksReducer";
 import {
     addNewTodoListAC,
     changeFilterValueAC,
     changeSortValueAC,
-    changeTodoTitleValueAC,
+    changeTodoTitleValueAC, removeTodoListAC,
     todoListsReducer
 } from "./reducers/todoListsReducer";
 
@@ -78,14 +78,13 @@ function App() {
     const addNewTodoList = (todoTitle: string) => {
         const newTodoID = v1();
         dispatchTodolists(addNewTodoListAC(todoTitle, newTodoID))
-        dispatchTasks(setNewToloListIDToKeyAC(newTodoID))
-
+        dispatchTasks(setNewTodoListIDToKeyAC(newTodoID))
     }
     const addNewTask = (todoListID: string) => (taskTitle: string) => {
         dispatchTasks(addNewTaskAC(todoListID, taskTitle))
     }
     const removeTodoList = (todoListID: string) => () => {
-        // setTodolists(todolists.filter(tl => tl.id !== todoListID))
+        dispatchTodolists(removeTodoListAC(todoListID))
         delete tasks[todoListID]
     }
     const removeTask = (todoListID: string) => (taskID: string) => {
