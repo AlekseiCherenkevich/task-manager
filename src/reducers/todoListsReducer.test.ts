@@ -16,6 +16,11 @@ test('length of todoLists array should be incremented', ()=>{
 
     expect(updatedState.length).toBe(3)
 })
+test('length of todoLists array should be decremented', ()=>{
+    const updatedState = todoListsReducer(state, {type: "REMOVE_TODO_LIST", payload: {todoListID: todolistId1}})
+
+    expect(updatedState.length).toBe(1)
+})
 
 test('sort value should be correct', ()=>{
     const updatedState = todoListsReducer(state, {type: "CHANGE_SORT_VALUE", payload: {todoListID: todolistId1, sort: "A-z"}})
@@ -39,5 +44,6 @@ test('title value should be correct', ()=>{
     expect(el && el.title).toBe('changed title')
 })
 test('dispatching incorrect action should throw error', ()=>{
+    //@ts-ignore
     expect(()=>todoListsReducer(state, {type: 'FAKE'})).toThrowError()
 })
