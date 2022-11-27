@@ -11,7 +11,9 @@ type TasksPropsType = {
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
     const {tasks, removeTask, changeTaskStatus, changeTaskTitle} = props
-    return <div>
+    return <div
+        style={{minHeight: '100px'}}
+    >
         {tasks.map(t => {
             const onRemoveTaskHandler = () => removeTask(t.id)
             const onChangeTaskStatus = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(t.id, e.currentTarget.checked)

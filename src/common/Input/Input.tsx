@@ -1,6 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {IconButton, TextField} from "@mui/material";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {TextField} from "@mui/material";
+import Button from '@mui/material/Button';
 
 type InputPropsType = {
     placeholder?: string
@@ -39,8 +39,12 @@ export const Input: React.FC<InputPropsType> = (props) => {
             error={!!error}
             helperText={error}
         />
-        <IconButton onClick={onClickHandler}>
-            <AddCircleOutlineIcon fontSize="inherit" color="primary"/>
-        </IconButton>
+        <Button
+            onClick={onClickHandler}
+            size="medium"
+            variant="contained"
+            color="primary"
+            style={{maxWidth: '36px', minWidth: '39px', maxHeight: '36px', minHeight: '39px', fontSize: '30px'}}
+        >+</Button>
     </>
 }

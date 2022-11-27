@@ -5,6 +5,7 @@ import {TodoListTitle} from "./TodoListTitle/TodoListTitle";
 import {SortingButtons} from "./SortingButtons/SortingButtons";
 import {FilteringButtons} from "./FilteringButtons/FilteringButtons";
 import {Tasks} from "./Tasks/Tasks";
+import Typography from '@mui/material/Typography';
 
 type TodoListPropsType = {
     todoTitle: string
@@ -47,7 +48,10 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
             <Input callback={addNewTask}/>
         </div>
         <SortingButtons sort={sort} onChangeSortHandler={onChangeSortHandler}/>
-        <Tasks tasks={tasks} removeTask={removeTask} changeTaskStatus={changeTaskStatus} changeTaskTitle={changeTaskTitle}/>
+        {tasks.length
+            ? <Tasks tasks={tasks} removeTask={removeTask} changeTaskStatus={changeTaskStatus} changeTaskTitle={changeTaskTitle}/>
+            : <Typography style={{minHeight: '90px', textAlign: 'center', paddingTop: '10px'}}>Tasks not found</Typography>
+        }
         <FilteringButtons filter={filter} onChangeFilterHandler={onChangeFilterHandler}/>
     </div>
 }

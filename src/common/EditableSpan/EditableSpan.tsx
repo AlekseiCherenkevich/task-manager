@@ -1,5 +1,4 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {TextField} from "@mui/material";
 
 type EditableSpanPropsType = {
     value: string
@@ -33,19 +32,17 @@ export const EditableSpan: React.FC<EditableSpanPropsType> = ({value, callback})
 
     return edit
         ? <div>
-            <TextField id="outlined-basic"
-                       label="Change text"
-                       variant="outlined"
-                       size="small"
-                       value={localValue}
-                       autoFocus={true}
-                       onKeyPress={onKeyPressHandler}
-                       onChange={onChangeValueHandler}
-                       onBlur={onBlurHandler}
-                       error={!!error}
-                       helperText={error}
+            <input value={localValue}
+                   autoFocus={true}
+                   onKeyPress={onKeyPressHandler}
+                   onChange={onChangeValueHandler}
+                   onBlur={onBlurHandler}
+                   style={{borderRadius: '4px', fontSize: 'inherit',fontWeight: 'inherit' , outline: 'none', fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+                       maxWidth: '100%'
+            }}
             />
-            {error && <div>{error}</div>}
+            {error && <div style={{fontSize: '14px', color: 'red'}}>{error}</div>}
         </div>
-        : <span onDoubleClick={onDoubleClickHandler}>{value}</span>
+        : <span style={{wordWrap: 'break-word', maxWidth: '200px', minWidth: '50px'}}
+                onDoubleClick={onDoubleClickHandler}>{value}</span>
 }

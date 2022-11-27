@@ -3,8 +3,15 @@ import './App.css';
 import {v1} from 'uuid';
 import {Todolist} from './TodoList/Todolist';
 import {Input} from "./common/Input/Input";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import {
     addNewTaskAC,
     changeTaskStatusAC,
@@ -129,18 +136,18 @@ function App() {
 
     return (
         <div className="App">
-            <AppBar position="static">
+            <AppBar position="static" color="secondary">
                 <Toolbar>
                     <IconButton
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="menu"
-                        sx={{mr: 2}}
+                        sx={{ mr: 2 }}
                     >
-                        <MenuIcon/>
+                        <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         News
                     </Typography>
                     <Button color="inherit">Login</Button>
@@ -150,12 +157,12 @@ function App() {
                 <Grid container style={{padding: '20px'}}>
                     <Input callback={addNewTodoList}/>
                 </Grid>
-                <Grid container spacing={3}>
+                <Grid container spacing={5}>
                     {todolists.map((tl: TodoListType) => {
                         const filteredTasks = filterTasks(tasks[tl.id], tl.filter)
                         const sortedTasks = sortTasks(filteredTasks, tl.sort)
                         return <Grid item>
-                            <Paper style={{padding: '20px'}}>
+                            <Paper elevation={3} style={{padding: '20px'}}>
                                 <Todolist
                                     todoTitle={tl.title}
                                     tasks={sortedTasks}
