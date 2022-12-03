@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {v1} from 'uuid';
 import {Todolist} from './TodoList/Todolist';
@@ -17,16 +17,17 @@ import {
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
-    setNewTodoListIDToKeyAC,
-    tasksReducer
+    setNewTodoListIDToKeyAC
 } from "./reducers/tasksReducer";
 import {
     addNewTodoListAC,
     changeFilterValueAC,
     changeSortValueAC,
-    changeTodoTitleValueAC, removeTodoListAC,
-    todoListsReducer
+    changeTodoTitleValueAC,
+    removeTodoListAC
 } from "./reducers/todoListsReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {RootReducerType} from "./store/store";
 
 export type TodoListType = {
     id: string
@@ -46,60 +47,36 @@ export type FilterValuesType = 'all' | 'completed' | 'active'
 export type SortValuesType = 'default' | 'A-z' | 'Z-a'
 
 function App() {
-    let todolistId1 = v1();
-    let todolistId2 = v1();
+    const dispatch = useDispatch()
 
-    let [todolists, dispatchTodolists] = useReducer(todoListsReducer, checkLocalStorage('todoLists'))
-    let [tasks, dispatchTasks] = useReducer(tasksReducer, checkLocalStorage('tasks'));
+    const tasks = useSelector<RootReducerType, TasksType>(state=>state.tasks)
+    const todolists = useSelector<RootReducerType, TodoListType[]>(state => state.todoLists)
+
 
     useEffect(()=>{
         localStorage.setItem('tasks', JSON.stringify(tasks))
         localStorage.setItem('todoLists', JSON.stringify(todolists))
     },[tasks, todolists])
 
-    function checkLocalStorage(key: string) {
-        const dataFromLocalStorage = localStorage.getItem(key)
-        if (dataFromLocalStorage) {
-            return JSON.parse(dataFromLocalStorage)
-        } else {
-            if (key === 'tasks') {
-                return {
-                    [todolistId1]: [
-                        {id: v1(), title: "HTML&CSS", isDone: true},
-                        {id: v1(), title: "JS", isDone: true}
-                    ],
-                    [todolistId2]: [
-                        {id: v1(), title: "Milk", isDone: true},
-                        {id: v1(), title: "React Book", isDone: true}
-                    ]
-                }
-            } else {
-                return [
-                    {id: todolistId1, title: "What to learn", filter: "all", sort: "default"},
-                    {id: todolistId2, title: "What to buy", filter: "all", sort: "default"}
-                ]
-            }
-        }
-    }
 
     const addNewTodoList = (todoTitle: string) => {
         const newTodoID = v1();
-        dispatchTodolists(addNewTodoListAC(todoTitle, newTodoID))
-        dispatchTasks(setNewTodoListIDToKeyAC(newTodoID))
+        dispatch(addNewTodoListAC(todoTitle, newTodoID))
+        dispatch(setNewTodoListIDToKeyAC(newTodoID))
     }
     const addNewTask = (todoListID: string) => (taskTitle: string) => {
-        dispatchTasks(addNewTaskAC(todoListID, taskTitle))
+        dispatch(addNewTaskAC(todoListID, taskTitle))
     }
     const removeTodoList = (todoListID: string) => () => {
-        dispatchTodolists(removeTodoListAC(todoListID))
+        dispatch(removeTodoListAC(todoListID))
         delete tasks[todoListID]
     }
     const removeTask = (todoListID: string) => (taskID: string) => {
-        dispatchTasks(removeTaskAC(todoListID, taskID))
+        dispatch(removeTaskAC(todoListID, taskID))
 
     }
     const changeTaskStatus = (todoListID: string) => (taskID: string, isDone: boolean) => {
-        dispatchTasks(changeTaskStatusAC(todoListID, taskID, isDone))
+        dispatch(changeTaskStatusAC(todoListID, taskID, isDone))
     }
     const filterTasks = (tasks: TaskType[], filter: FilterValuesType) => {
         switch (filter) {
@@ -112,7 +89,8 @@ function App() {
         }
     }
     const changeFilterValue = (todoListID: string) => (filterValue: FilterValuesType) => {
-        dispatchTodolists(changeFilterValueAC(todoListID,filterValue))
+        // dispatchTodolists(changeFilterValueAC(todoListID,filterValue))
+        dispatch(changeFilterValueAC(todoListID,filterValue))
     }
     const sortTasks = (tasks: TaskType[], sort: SortValuesType) => {
         switch (sort) {
@@ -125,14 +103,16 @@ function App() {
         }
     }
     const changeSortValue = (todoListID: string) => (sort: SortValuesType) => {
-        dispatchTodolists(changeSortValueAC(todoListID,sort))
+        dispatch(changeSortValueAC(todoListID,sort))
     }
     const changeTodoTitleValue = (todoListID: string) => (title: string) => {
-        dispatchTodolists(changeTodoTitleValueAC(todoListID, title))
+        dispatch(changeTodoTitleValueAC(todoListID, title))
     }
     const changeTaskTitle = (todoListID: string) => (taskID: string) => (taskTitle: string) => {
-        dispatchTasks(changeTaskTitleAC(todoListID, taskID, taskTitle))
+        dispatch(changeTaskTitleAC(todoListID, taskID, taskTitle))
     }
+
+
 
     return (
         <div className="App">

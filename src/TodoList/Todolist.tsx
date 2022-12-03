@@ -35,6 +35,7 @@ export const Todolist: React.FC<TodoListPropsType>  = (props)=> {
         changeSortValue,
         changeTodoTitleValue,
         changeTaskTitle} = props
+
     const onRemoveTodoListHandler = () => removeTodoList()
     const onChangeFilterHandler = (filter: FilterValuesType) => () => changeFilterValue(filter)
     const onChangeSortHandler = (sort: SortValuesType) => () => changeSortValue(sort)
