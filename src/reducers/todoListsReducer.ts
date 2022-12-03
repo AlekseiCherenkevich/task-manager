@@ -1,7 +1,10 @@
 import {FilterValuesType, SortValuesType, TodoListType} from "../App";
+import {checkLocalStorage} from "../utils/helpers";
 
 
-export const todoListsReducer = (state: TodoListType[], action: ActionsType): TodoListType[] => {
+const initialState: TodoListType[] = checkLocalStorage('todoLists')
+
+export const todoListsReducer = (state: TodoListType[] = initialState, action: ActionsType): TodoListType[] => {
     switch (action.type) {
         case "ADD_NEW_TODO_LIST":
             return (
@@ -19,8 +22,7 @@ export const todoListsReducer = (state: TodoListType[], action: ActionsType): To
             return state.map(tl=>tl.id===action.payload.todoListID?{...tl, title:action.payload.title}:tl)
         case "REMOVE_TODO_LIST":
             return state.filter(tl=>tl.id!==action.payload.todoListID)
-        default:
-            throw new Error('Action not supported')
+        default: return state
     }
 }
 

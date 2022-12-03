@@ -1,7 +1,11 @@
 import {TasksType} from "../App";
 import {v1} from "uuid";
+import {checkLocalStorage} from "../utils/helpers";
 
-export const tasksReducer = (state: TasksType, action: ActionsType): TasksType => {
+
+const initialState: TasksType = checkLocalStorage('tasks')
+
+export const tasksReducer = (state: TasksType = initialState, action: ActionsType): TasksType => {
     switch (action.type) {
         case "ADD_NEW_TASK": return (
             {...state,
@@ -23,7 +27,7 @@ export const tasksReducer = (state: TasksType, action: ActionsType): TasksType =
             })
         case "SET_NEW_TODO_LIST_ID_TO_KEY": return (
             {...state, [action.payload.todoListID]: []})
-        default: throw new Error('Action not supported')
+        default: return state
     }
 }
 
