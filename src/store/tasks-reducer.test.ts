@@ -20,3 +20,10 @@ test('tasks should be removed correctly', ()=>{
     expect(updatedState[todolistId1].length).toBe(2)
     expect(updatedState[todolistId2].every(t=>t.id!=='3')).toBeTruthy()
 })
+test('tasks should be added correctly', ()=>{
+    const updatedState = tasksReducer(state, {type: "ADD-NEW-TASK", payload: {todolistId: todolistId1, taskTitle: 'new task'}})
+
+    expect(updatedState[todolistId1].length).toBe(3)
+    expect(updatedState[todolistId2].length).toBe(2)
+    expect(updatedState[todolistId1][0].title).toBe('new task')
+})
