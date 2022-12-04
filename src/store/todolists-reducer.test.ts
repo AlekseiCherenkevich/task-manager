@@ -33,3 +33,10 @@ test('todolist filter should be changed correctly', ()=>{
     expect(updatedState[0]).toEqual({id: todolistId1, title: "What to learn", filter: "all", sort: "default"})
     expect(updatedState[1]).toEqual({id: todolistId2, title: "What to buy", filter: "active", sort: "default"})
 })
+test('todolist sort should be changed correctly', ()=>{
+    const updatedState = todolistsReducer(state, {type: "CHANGE-TODOLIST-SORT", payload: {todolistId: todolistId2, sort: "A-z"}})
+
+    expect(updatedState.length).toBe(2)
+    expect(updatedState[0]).toEqual({id: todolistId1, title: "What to learn", filter: "all", sort: "default"})
+    expect(updatedState[1]).toEqual({id: todolistId2, title: "What to buy", filter: "all", sort: "A-z"})
+})
