@@ -2,7 +2,7 @@ import {v1} from "uuid";
 import {todolistId1, todolistId2} from "../utils/helpers";
 
 
-type TasksType = {
+export type TasksType = {
     [key: string]: TaskType[]
 }
 type TaskType = {
@@ -54,27 +54,33 @@ export const tasksReducer = (state: TasksType = initialsState, action: ActionsTy
                     isDone: action.payload.taskStatus
                 } : t)
             }
+        case "ADD-NEW-TODOLIST":
+            return {...state, [action.payload.todolistId]: []}
         default:
             return state
     }
 }
 
-type ActionsType = RemoveTaskType | AddNewTaskType | ChangeTaskTitleType | ChangeTaskStatusType
+type ActionsType = RemoveTaskType | AddNewTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType
 
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddNewTaskType = ReturnType<typeof addNewTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
+type AddNewTodolistType = ReturnType<typeof addNewTodolistAC>
 
-const removeTaskAC = (todolistId: string, taskId: string) => (
+export const removeTaskAC = (todolistId: string, taskId: string) => (
     {type: "REMOVE-TASK", payload: {todolistId, taskId}} as const
 )
-const addNewTaskAC = (todolistId: string, taskTitle: string) => (
+export const addNewTaskAC = (todolistId: string, taskTitle: string) => (
     {type: "ADD-NEW-TASK", payload: {todolistId, taskTitle}} as const
 )
-const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle: string) => (
+export const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle: string) => (
     {type: "CHANGE-TASK-TITLE", payload: {todolistId, taskId, taskTitle}} as const
 )
-const changeTaskStatusAC = (todolistId: string, taskId: string, taskStatus: boolean) => (
+export const changeTaskStatusAC = (todolistId: string, taskId: string, taskStatus: boolean) => (
     {type: "CHANGE-TASK-STATUS", payload: {todolistId, taskId, taskStatus}} as const
+)
+export const addNewTodolistAC = (todolistId: string) => (
+    {type: "ADD-NEW-TODOLIST", payload: {todolistId}} as const
 )
