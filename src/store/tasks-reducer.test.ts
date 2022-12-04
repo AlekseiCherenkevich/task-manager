@@ -34,3 +34,10 @@ test('task title should be changed correctly', ()=>{
     expect(updatedState[todolistId2][1].title).toBe('React Book')
     expect(updatedState[todolistId2].length).toBe(2)
 })
+test('task status should be changed correctly', ()=>{
+    const updatedState = tasksReducer(state, {type: 'CHANGE-TASK-STATUS', payload: {todolistId: todolistId1, taskId: '2', taskStatus: false}})
+
+    expect(updatedState[todolistId1][0]).toEqual({id: '1', title: "HTML&CSS", isDone: true})
+    expect(updatedState[todolistId1][1]).toEqual({id: '2', title: "JS", isDone: false})
+    expect(updatedState[todolistId1].length).toBe(2)
+})
