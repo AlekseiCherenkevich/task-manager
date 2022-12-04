@@ -13,3 +13,9 @@ test('todolist should be removed correctly', ()=>{
     expect(updatedState.length).toBe(1)
     expect(updatedState[0]).toEqual({id: todolistId2, title: "What to buy", filter: "all", sort: "default"})
 })
+test('todolist should be added correctly', ()=>{
+    const updatedState = todolistsReducer(state, {type: "ADD-NEW-TODOLIST", payload: {todolistId: 'xxx3', todolistTitle: 'new todo list'}})
+
+    expect(updatedState.length).toBe(3)
+    expect(updatedState[2]).toEqual({id: 'xxx3', title: 'new todo list', filter: "all", sort: "default"})
+})
