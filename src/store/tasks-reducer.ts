@@ -54,7 +54,7 @@ export const tasksReducer = (state: TasksType = initialsState, action: ActionsTy
                     isDone: action.payload.taskStatus
                 } : t)
             }
-        case "ADD-NEW-TODOLIST":
+        case "ADD-EMPTY-TASKS-ARRAY":
             return {...state, [action.payload.todolistId]: []}
         default:
             return state
@@ -67,7 +67,7 @@ type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddNewTaskType = ReturnType<typeof addNewTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
-type AddNewTodolistType = ReturnType<typeof addNewTodolistAC>
+type AddNewTodolistType = ReturnType<typeof addEmptyTasksArrayAC>
 
 export const removeTaskAC = (todolistId: string, taskId: string) => (
     {type: "REMOVE-TASK", payload: {todolistId, taskId}} as const
@@ -81,6 +81,6 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle:
 export const changeTaskStatusAC = (todolistId: string, taskId: string, taskStatus: boolean) => (
     {type: "CHANGE-TASK-STATUS", payload: {todolistId, taskId, taskStatus}} as const
 )
-export const addNewTodolistAC = (todolistId: string) => (
-    {type: "ADD-NEW-TODOLIST", payload: {todolistId}} as const
+export const addEmptyTasksArrayAC = (todolistId: string) => (
+    {type: "ADD-EMPTY-TASKS-ARRAY", payload: {todolistId}} as const
 )

@@ -42,7 +42,7 @@ test('task status should be changed correctly', ()=>{
     expect(updatedState[todolistId1].length).toBe(2)
 })
 test('after adding new todo list tasks array should be empty', ()=>{
-    const updatedState = tasksReducer(state, {type: "ADD-NEW-TODOLIST", payload: {todolistId: 'xxxx'}})
+    const updatedState = tasksReducer(state, {type: "ADD-EMPTY-TASKS-ARRAY", payload: {todolistId: 'xxxx'}})
 
     expect(Object.keys(updatedState).length).toBe(3)
     expect(updatedState['xxxx']).toEqual([])
