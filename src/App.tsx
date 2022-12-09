@@ -1,10 +1,9 @@
 import React from 'react';
 import './App.css';
-import {v1} from 'uuid';
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store/store";
 import {addNewTodolistAC, removeTodolistAC, TodolistType} from "./store/todolists-reducer";
-import {addEmptyTasksArrayAC, addNewTaskAC, removeTaskAC} from "./store/tasks-reducer";
+import {addNewTaskAC, removeTaskAC} from "./store/tasks-reducer";
 import {Todolist} from "./components/Todolist/Todolist";
 import Input from "./components/common/Input/Input"
 
@@ -16,9 +15,7 @@ function App() {
 
 
     const addNewTodolist = (todolistTitle: string) => {
-        const newTodolistId = v1()
-        dispatch(addNewTodolistAC(newTodolistId, todolistTitle))
-        dispatch(addEmptyTasksArrayAC(newTodolistId))
+        dispatch(addNewTodolistAC(todolistTitle))
     }
     const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))

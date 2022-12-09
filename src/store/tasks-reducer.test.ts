@@ -41,12 +41,6 @@ test('task status should be changed correctly', ()=>{
     expect(updatedState[todolistId1][1]).toEqual({id: '2', title: "JS", isDone: false})
     expect(updatedState[todolistId1].length).toBe(2)
 })
-test('after adding new todo list tasks array should be empty', ()=>{
-    const updatedState = tasksReducer(state, {type: "ADD-EMPTY-TASKS-ARRAY", payload: {todolistId: 'xxxx'}})
-
-    expect(Object.keys(updatedState).length).toBe(3)
-    expect(updatedState['xxxx']).toEqual([])
-})
 test('after removing todo lists tasks array should be removed', ()=>{
     const updatedState = tasksReducer(state, {type: "REMOVE-TODOLIST", payload: {todolistId: todolistId1}})
 

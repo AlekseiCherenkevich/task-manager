@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
 import {useSelector} from "react-redux";
 import {rootReducerType} from "../../store/store";
 import {TasksType} from "../../store/tasks-reducer";
-import { Task } from './Task/Task';
+import {Task} from './Task/Task';
 import Input from "../common/Input/Input";
 
 type TodolistPropsType = {
