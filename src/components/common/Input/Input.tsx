@@ -1,31 +1,35 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
 type InputPropsType = {
-    value: string
-    onKeyPress: (value: string) => void
-    onChange: (value: string) => void
+    callback: (value: string) => void
 }
 
 const Input: React.FC<InputPropsType> = (props) => {
+    const [value, setValue] = useState('')
     const [error, setError] = useState('')
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (error) {
             setError('')
         }
-        props.onChange(e.currentTarget.value)
+        setValue(e.currentTarget.value)
+    }
+    const callBackHandler = () => {
+
+        if (value.trim().length) {
+            props.callback(value)
+            setValue('')
+            setError('')
+        } else {
+            setError('Field is required')
+        }
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
-            if (props.value.trim().length) {
-                props.onKeyPress(e.currentTarget.value)
-                props.onChange('')
-                setError('')
-            } else {
-                setError('Field is required')
-            }
+            callBackHandler()
         }
     }
+
     const onBlurHandler = () => {
         if (error) {
             setError('')
@@ -33,12 +37,15 @@ const Input: React.FC<InputPropsType> = (props) => {
     }
 
     return <div>
-        <input value={props.value}
-               onChange={onChangeHandler}
-               onKeyPress={onKeyPressHandler}
-               onBlur={onBlurHandler}
-               type="text"/>
-        {error && <div>{error}</div>}
+        <div>
+            <input value={value}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   onBlur={onBlurHandler}
+                   type="text"/>
+            {error && <div>{error}</div>}
+        </div>
+        <button onClick={callBackHandler}>+</button>
     </div>
 };
 
