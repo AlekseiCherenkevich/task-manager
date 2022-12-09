@@ -1,5 +1,6 @@
 import {v1} from "uuid";
 import {todolistId1, todolistId2} from "../utils/helpers";
+import {RemoveTodolistType} from "./todolists-reducer";
 
 
 export type TasksType = {
@@ -56,12 +57,16 @@ export const tasksReducer = (state: TasksType = initialsState, action: ActionsTy
             }
         case "ADD-EMPTY-TASKS-ARRAY":
             return {...state, [action.payload.todolistId]: []}
+        case "REMOVE-TODOLIST":
+            const stateCopy = {...state}
+            delete stateCopy[action.payload.todolistId]
+            return stateCopy
         default:
             return state
     }
 }
 
-type ActionsType = RemoveTaskType | AddNewTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType
+type ActionsType = RemoveTaskType | AddNewTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType | RemoveTodolistType
 
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddNewTaskType = ReturnType<typeof addNewTaskAC>
@@ -84,3 +89,4 @@ export const changeTaskStatusAC = (todolistId: string, taskId: string, taskStatu
 export const addEmptyTasksArrayAC = (todolistId: string) => (
     {type: "ADD-EMPTY-TASKS-ARRAY", payload: {todolistId}} as const
 )
+

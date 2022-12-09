@@ -47,3 +47,13 @@ test('after adding new todo list tasks array should be empty', ()=>{
     expect(Object.keys(updatedState).length).toBe(3)
     expect(updatedState['xxxx']).toEqual([])
 })
+test('after removing todo lists tasks array should be removed', ()=>{
+    const updatedState = tasksReducer(state, {type: "REMOVE-TODOLIST", payload: {todolistId: todolistId1}})
+
+    expect(updatedState).toEqual({
+        [todolistId2]: [
+            {id: '3', title: "Milk", isDone: true},
+            {id: '4', title: "React Book", isDone: true}
+        ]
+    })
+})
