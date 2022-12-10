@@ -6,7 +6,7 @@ import {AddNewTodolistType, RemoveTodolistType} from "./todolists-reducer";
 export type TasksType = {
     [key: string]: TaskType[]
 }
-type TaskType = {
+export type TaskType = {
     id: string
     title: string
     isDone: true

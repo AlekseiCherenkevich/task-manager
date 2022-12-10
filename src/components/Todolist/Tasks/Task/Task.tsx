@@ -1,5 +1,5 @@
 import React, {ChangeEvent} from 'react';
-import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
+import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 
 type TaskPropsType = {
     taskTitle: string

@@ -3,9 +3,11 @@ import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
 import {useSelector} from "react-redux";
 import {rootReducerType} from "../../store/store";
 import {TasksType} from "../../store/tasks-reducer";
-import {Task} from './Task/Task';
-import Input from "../common/Input/Input";
-import {EditableSpan} from '../common/EditableSpan/EditableSpan';
+import {Tasks} from "./Tasks/Tasks";
+import {SortingButtons} from './SortingButtons/SortingButtons';
+import {FilteringButtons} from './FilteringButtons/FilteringButtons';
+import {TodolistTitle} from './TodolistTitle/TodolistTitle';
+import {TaskInput} from './TaskInput/TaskInput';
 
 type TodolistPropsType = {
     todolistId: string
@@ -63,36 +65,30 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     }, [tasks, filter, sort, todolistId])
 
     return <div>
-        <div>
-            <EditableSpan value={todolistTitle} callback={changeTodolistTitle}/>
-            <button onClick={removeTodolist}>-</button>
-        </div>
-        <div>
-            <Input callback={addNewTask}/>
-        </div>
-        <div>
-            <button onClick={changeSort("default")}>Default</button>
-            <button onClick={changeSort("A-z")}>A-z</button>
-            <button onClick={changeSort("z-A")}>Z-a</button>
-        </div>
-        <div>
-            {filteredSortedTasks.map(t => {
-                return <Task key={t.id}
-                             taskTitle={t.title}
-                             isDone={t.isDone}
-                             removeTask={removeTask(t.id)}
-                             changeTaskStatus={changeTaskStatus(t.id)}
-                             changeTaskTitle={changeTaskTitle(t.id)}
-                />
-            })}
-        </div>
-        <div>
-            <button onClick={changeFilter("all")}>All</button>
-            <button onClick={changeFilter("completed")}>Completed</button>
-            <button onClick={changeFilter("active")}>Active</button>
-        </div>
+        <TodolistTitle
+            todolistTitle={todolistTitle}
+            changeTodolistTitle={changeTodolistTitle}
+            removeTodolist={removeTodolist}
+        />
+        <TaskInput addNewTask={addNewTask}/>
+        <SortingButtons changeSort={changeSort}/>
+        <Tasks tasks={filteredSortedTasks}
+               removeTask={removeTask}
+               changeTaskStatus={changeTaskStatus}
+               changeTaskTitle={changeTaskTitle}/>
+        <FilteringButtons changeFilter={changeFilter}/>
     </div>
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
