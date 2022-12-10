@@ -9,7 +9,7 @@ import {
     removeTodolistAC, SortValuesType,
     TodolistType
 } from "./store/todolists-reducer";
-import {addNewTaskAC, removeTaskAC} from "./store/tasks-reducer";
+import {addNewTaskAC, changeTaskStatusAC, removeTaskAC} from "./store/tasks-reducer";
 import {Todolist} from "./components/Todolist/Todolist";
 import Input from "./components/common/Input/Input"
 
@@ -33,6 +33,9 @@ function App() {
     const removeTask = (todolistId: string) => (taskId: string) => () => {
         dispatch(removeTaskAC(todolistId, taskId))
     }
+    const changeTaskStatus = (todolistId: string) => (taskId: string) => (taskStatus: boolean) => {
+        dispatch(changeTaskStatusAC(todolistId, taskId ,taskStatus))
+    }
 
 
     return (
@@ -48,10 +51,11 @@ function App() {
                 filter={l.filter}
                 sort={l.sort}
                 removeTodolist={removeTodolist(l.id)}
-                addNewTask={addNewTask(l.id)}
                 removeTask={removeTask(l.id)}
                 changeFilter={changeFilter(l.id)}
                 changeSort={changeSort(l.id)}
+                addNewTask={addNewTask(l.id)}
+                changeTaskStatus={changeTaskStatus(l.id)}
             />)}
 
         </div>

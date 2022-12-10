@@ -16,11 +16,12 @@ type TodolistPropsType = {
     removeTask: (taskId: string) => () => void
     changeFilter: (filter: FilterValuesType) => () => void
     changeSort: (sort: SortValuesType) => () => void
+    changeTaskStatus: (taskId: string) => (taskStatus: boolean) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
-    const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort} = props
+    const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort, changeTaskStatus} = props
     const tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
 
 
@@ -60,8 +61,9 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                 return <Task key={t.id}
                              taskTitle={t.title}
                              isDone={t.isDone}
-                             removeTask={removeTask(t.id)
-                }/>
+                             removeTask={removeTask(t.id)}
+                             changeTaskStatus={changeTaskStatus(t.id)}
+                />
             })}
         </div>
         <div>
