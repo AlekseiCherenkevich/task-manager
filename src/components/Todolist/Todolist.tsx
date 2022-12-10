@@ -5,6 +5,7 @@ import {rootReducerType} from "../../store/store";
 import {TasksType} from "../../store/tasks-reducer";
 import {Task} from './Task/Task';
 import Input from "../common/Input/Input";
+import {EditableSpan} from '../common/EditableSpan/EditableSpan';
 
 type TodolistPropsType = {
     todolistId: string
@@ -17,42 +18,57 @@ type TodolistPropsType = {
     changeFilter: (filter: FilterValuesType) => () => void
     changeSort: (sort: SortValuesType) => () => void
     changeTaskStatus: (taskId: string) => (taskStatus: boolean) => void
+    changeTodolistTitle: (todolistTitle: string) => void
+    changeTaskTitle: (taskId: string) => (taskTitle: string) => void
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
-    const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort, changeTaskStatus} = props
+    const {
+        todolistId,
+        todolistTitle,
+        filter,
+        sort,
+        removeTodolist,
+        addNewTask,
+        removeTask,
+        changeFilter,
+        changeSort,
+        changeTaskStatus,
+        changeTodolistTitle,
+        changeTaskTitle
+    } = props
     const tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
 
-    useEffect(()=>{
+    useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }, [tasks])
 
 
-    const filteredSortedTasks = useMemo(()=>{
+    const filteredSortedTasks = useMemo(() => {
         let filteredTasks = tasks[todolistId]
         if (filter === "active") {
-            filteredTasks = tasks[todolistId].filter(t=>!t.isDone)
+            filteredTasks = tasks[todolistId].filter(t => !t.isDone)
         }
         if (filter === "completed") {
-            filteredTasks = tasks[todolistId].filter(t=>t.isDone)
+            filteredTasks = tasks[todolistId].filter(t => t.isDone)
         }
         let sortedTasks = filteredTasks
         if (sort === "A-z") {
-            sortedTasks = [...filteredTasks].sort((a,b)=>a.title.localeCompare(b.title))
+            sortedTasks = [...filteredTasks].sort((a, b) => a.title.localeCompare(b.title))
         }
         if (sort === "z-A") {
-            sortedTasks = [...filteredTasks].sort((a,b)=>b.title.localeCompare(a.title))
+            sortedTasks = [...filteredTasks].sort((a, b) => b.title.localeCompare(a.title))
         }
         return sortedTasks
-    },[tasks, filter, sort, todolistId])
+    }, [tasks, filter, sort, todolistId])
 
     return <div>
         <div>
-            <h3>{todolistTitle}</h3>
+            <EditableSpan value={todolistTitle} callback={changeTodolistTitle}/>
             <button onClick={removeTodolist}>-</button>
         </div>
         <div>
-            <Input callback={addNewTask} />
+            <Input callback={addNewTask}/>
         </div>
         <div>
             <button onClick={changeSort("default")}>Default</button>
@@ -66,6 +82,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
                              isDone={t.isDone}
                              removeTask={removeTask(t.id)}
                              changeTaskStatus={changeTaskStatus(t.id)}
+                             changeTaskTitle={changeTaskTitle(t.id)}
                 />
             })}
         </div>
@@ -76,4 +93,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         </div>
     </div>
 }
+
+
 
