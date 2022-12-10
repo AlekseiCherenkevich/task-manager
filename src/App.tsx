@@ -2,7 +2,13 @@ import React from 'react';
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store/store";
-import {addNewTodolistAC, removeTodolistAC, TodolistType} from "./store/todolists-reducer";
+import {
+    addNewTodolistAC,
+    changeTodolistFilterAC,
+    FilterValuesType,
+    removeTodolistAC,
+    TodolistType
+} from "./store/todolists-reducer";
 import {addNewTaskAC, removeTaskAC} from "./store/tasks-reducer";
 import {Todolist} from "./components/Todolist/Todolist";
 import Input from "./components/common/Input/Input"
@@ -12,15 +18,13 @@ function App() {
     const dispatch = useDispatch()
     const todolists = useSelector<rootReducerType, TodolistType[]>(state => state.todolists)
 
-
-
     const addNewTodolist = (todolistTitle: string) => {
         dispatch(addNewTodolistAC(todolistTitle))
     }
     const removeTodolist = (todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
     }
-
+    const changeFilter = (todolistId: string) => (filter: FilterValuesType) => () => dispatch(changeTodolistFilterAC(todolistId, filter))
 
     const addNewTask = (todolistId: string) => (taskTitle: string) => {
         dispatch(addNewTaskAC(todolistId, taskTitle))
@@ -45,6 +49,7 @@ function App() {
                 removeTodolist={removeTodolist}
                 addNewTask={addNewTask(l.id)}
                 removeTask={removeTask(l.id)}
+                changeFilter={changeFilter(l.id)}
             />)}
 
         </div>
