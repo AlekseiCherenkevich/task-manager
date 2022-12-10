@@ -99,7 +99,3 @@ export const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle:
 export const changeTaskStatusAC = (todolistId: string, taskId: string, taskStatus: boolean) => (
     {type: "CHANGE-TASK-STATUS", payload: {todolistId, taskId, taskStatus}} as const
 )
-export const addEmptyTasksArrayAC = (todolistId: string) => (
-    {type: "ADD-EMPTY-TASKS-ARRAY", payload: {todolistId}} as const
-)
-
