@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
 import {useSelector} from "react-redux";
 import {rootReducerType} from "../../store/store";
@@ -23,21 +23,24 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort} = props
     const tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
 
-    let filteredTasks = tasks[todolistId]
 
-    if (filter === "active") {
-        filteredTasks = tasks[todolistId].filter(t=>!t.isDone)
-    }
-    if (filter === "completed") {
-        filteredTasks = tasks[todolistId].filter(t=>t.isDone)
-    }
-    let sortedTasks = filteredTasks
-    if (sort === "A-z") {
-        sortedTasks = [...filteredTasks].sort((a,b)=>a.title.localeCompare(b.title))
-    }
-    if (sort === "z-A") {
-        sortedTasks = [...filteredTasks].sort((a,b)=>b.title.localeCompare(a.title))
-    }
+    const filteredSortedTasks = useMemo(()=>{
+        let filteredTasks = tasks[todolistId]
+        if (filter === "active") {
+            filteredTasks = tasks[todolistId].filter(t=>!t.isDone)
+        }
+        if (filter === "completed") {
+            filteredTasks = tasks[todolistId].filter(t=>t.isDone)
+        }
+        let sortedTasks = filteredTasks
+        if (sort === "A-z") {
+            sortedTasks = [...filteredTasks].sort((a,b)=>a.title.localeCompare(b.title))
+        }
+        if (sort === "z-A") {
+            sortedTasks = [...filteredTasks].sort((a,b)=>b.title.localeCompare(a.title))
+        }
+        return sortedTasks
+    },[tasks, filter, sort, todolistId])
 
     return <div>
         <div>
@@ -53,7 +56,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
             <button onClick={changeSort("z-A")}>Z-a</button>
         </div>
         <div>
-            {sortedTasks.map(t => {
+            {filteredSortedTasks.map(t => {
                 return <Task key={t.id}
                              taskTitle={t.title}
                              isDone={t.isDone}
