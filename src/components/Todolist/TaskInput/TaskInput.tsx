@@ -7,6 +7,6 @@ type TaskInputPropsType = {
 
 export const TaskInput: React.FC<TaskInputPropsType> = ({addNewTask}) => {
     return <div>
-        <Input callback={addNewTask}/>
+        <Input placeholder={"Enter task`s title"} callback={addNewTask}/>
     </div>
 }

@@ -1,6 +1,8 @@
 import {TaskType} from "../../../store/tasks-reducer";
 import React from "react";
 import {Task} from "./Task/Task";
+import styled from "styled-components";
+import Typography from '@mui/material/Typography';
 
 type TasksPropsType = {
     tasks: TaskType[]
@@ -10,8 +12,8 @@ type TasksPropsType = {
 }
 
 export const Tasks: React.FC<TasksPropsType> = (props) => {
-    return <div>
-        {props.tasks.map(t => {
+    return <TasksStyle>
+        {props.tasks.length ? props.tasks.map(t => {
             return <Task key={t.id}
                          taskTitle={t.title}
                          isDone={t.isDone}
@@ -19,6 +21,15 @@ export const Tasks: React.FC<TasksPropsType> = (props) => {
                          changeTaskStatus={props.changeTaskStatus(t.id)}
                          changeTaskTitle={props.changeTaskTitle(t.id)}
             />
-        })}
-    </div>
+        })
+        : <Typography variant="subtitle1" gutterBottom>Tasks not found</Typography>}
+    </TasksStyle>
 }
+
+const TasksStyle = styled.div`
+  min-height: 100px;
+  .MuiTypography-root, .MuiTypography-subtitle1, .MuiTypography-gutterBottom, .css-1wniyei-MuiTypography-root {
+    text-align: center;
+    transform: translateY(10px);
+  }
+`

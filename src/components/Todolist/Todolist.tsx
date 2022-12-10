@@ -71,12 +71,12 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
             removeTodolist={removeTodolist}
         />
         <TaskInput addNewTask={addNewTask}/>
-        <SortingButtons changeSort={changeSort}/>
+        <SortingButtons sort={sort} changeSort={changeSort}/>
         <Tasks tasks={filteredSortedTasks}
                removeTask={removeTask}
                changeTaskStatus={changeTaskStatus}
                changeTaskTitle={changeTaskTitle}/>
-        <FilteringButtons changeFilter={changeFilter}/>
+        <FilteringButtons filter={filter} changeFilter={changeFilter}/>
     </div>
 }
 
