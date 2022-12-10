@@ -11,7 +11,7 @@ type TodolistPropsType = {
     todolistTitle: string
     filter: FilterValuesType
     sort: SortValuesType
-    removeTodolist: (todolistId: string) => void
+    removeTodolist: () => void
     addNewTask: (taskTitle: string) => void
     removeTask: (taskId: string) => () => void
     changeFilter: (filter: FilterValuesType) => () => void
@@ -22,8 +22,6 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
 
     const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort} = props
     const tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
-
-    const removeTodolistHandler = () => removeTodolist(todolistId)
 
     let filteredTasks = tasks[todolistId]
 
@@ -44,7 +42,7 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
     return <div>
         <div>
             <h3>{todolistTitle}</h3>
-            <button onClick={removeTodolistHandler}>-</button>
+            <button onClick={removeTodolist}>-</button>
         </div>
         <div>
             <Input callback={addNewTask} />
@@ -56,7 +54,11 @@ export const Todolist: React.FC<TodolistPropsType> = (props) => {
         </div>
         <div>
             {sortedTasks.map(t => {
-                return <Task key={t.id} taskTitle={t.title} isDone={t.isDone} removeTask={removeTask(t.id)}/>
+                return <Task key={t.id}
+                             taskTitle={t.title}
+                             isDone={t.isDone}
+                             removeTask={removeTask(t.id)
+                }/>
             })}
         </div>
         <div>

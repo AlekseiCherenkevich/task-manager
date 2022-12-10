@@ -21,7 +21,7 @@ function App() {
     const addNewTodolist = (todolistTitle: string) => {
         dispatch(addNewTodolistAC(todolistTitle))
     }
-    const removeTodolist = (todolistId: string) => {
+    const removeTodolist = (todolistId: string) => () => {
         dispatch(removeTodolistAC(todolistId))
     }
     const changeFilter = (todolistId: string) => (filter: FilterValuesType) => () => dispatch(changeTodolistFilterAC(todolistId, filter))
@@ -47,7 +47,7 @@ function App() {
                 todolistTitle={l.title}
                 filter={l.filter}
                 sort={l.sort}
-                removeTodolist={removeTodolist}
+                removeTodolist={removeTodolist(l.id)}
                 addNewTask={addNewTask(l.id)}
                 removeTask={removeTask(l.id)}
                 changeFilter={changeFilter(l.id)}
