@@ -4,9 +4,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {rootReducerType} from "./store/store";
 import {
     addNewTodolistAC,
-    changeTodolistFilterAC,
+    changeTodolistFilterAC, changeTodolistSortAC,
     FilterValuesType,
-    removeTodolistAC,
+    removeTodolistAC, SortValuesType,
     TodolistType
 } from "./store/todolists-reducer";
 import {addNewTaskAC, removeTaskAC} from "./store/tasks-reducer";
@@ -25,6 +25,7 @@ function App() {
         dispatch(removeTodolistAC(todolistId))
     }
     const changeFilter = (todolistId: string) => (filter: FilterValuesType) => () => dispatch(changeTodolistFilterAC(todolistId, filter))
+    const changeSort = (todolistId: string) => (sort: SortValuesType) => () => dispatch(changeTodolistSortAC(todolistId, sort))
 
     const addNewTask = (todolistId: string) => (taskTitle: string) => {
         dispatch(addNewTaskAC(todolistId, taskTitle))
@@ -50,6 +51,7 @@ function App() {
                 addNewTask={addNewTask(l.id)}
                 removeTask={removeTask(l.id)}
                 changeFilter={changeFilter(l.id)}
+                changeSort={changeSort(l.id)}
             />)}
 
         </div>
