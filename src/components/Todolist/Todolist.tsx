@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
 import {useSelector} from "react-redux";
 import {rootReducerType} from "../../store/store";
@@ -20,9 +20,12 @@ type TodolistPropsType = {
 }
 
 export const Todolist: React.FC<TodolistPropsType> = (props) => {
-
     const {todolistId, todolistTitle, filter, sort, removeTodolist, addNewTask, removeTask, changeFilter, changeSort, changeTaskStatus} = props
     const tasks = useSelector<rootReducerType, TasksType>(state => state.tasks)
+
+    useEffect(()=>{
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }, [tasks])
 
 
     const filteredSortedTasks = useMemo(()=>{

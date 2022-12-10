@@ -1,6 +1,5 @@
-import { v1 } from "uuid"
+import {v1} from "uuid"
 import {todolistId1, todolistId2} from "../utils/helpers"
-
 
 export type TodolistType = {
     id: string
@@ -9,12 +8,23 @@ export type TodolistType = {
     sort: SortValuesType
 }
 export type FilterValuesType = "all" | "completed" | "active"
-export type SortValuesType = 'default' | "A-z" | "Z-a"
+export type SortValuesType = 'default' | "A-z" | "z-A"
 
 const initialState: TodolistType[] = [
     {id: todolistId1, title: "What to learn", filter: "all", sort: "default"},
     {id: todolistId2, title: "What to buy", filter: "all", sort: "default"}
 ]
+
+const checkLocalStorage = () => {
+    const localStorageData = localStorage.getItem('todolists')
+    if (localStorageData) {
+        return JSON.parse(localStorageData)
+    } else {
+        return initialState
+    }
+}
+
+
 
 type ActionsType =
     RemoveTodolistType
@@ -22,13 +32,14 @@ type ActionsType =
     | ChangeTodolistTitleType
     | ChangeTodolistFilterType
     | ChangeTodolistSortType
+
 export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
 export type AddNewTodolistType = ReturnType<typeof addNewTodolistAC>
 type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitleAC>
 type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilterAC>
 type ChangeTodolistSortType = ReturnType<typeof changeTodolistSortAC>
 
-export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType) => {
+export const todolistsReducer = (state: TodolistType[] = checkLocalStorage(), action: ActionsType) => {
     switch (action.type) {
         case "REMOVE-TODOLIST":
             return state.filter(l => l.id !== action.payload.todolistId)

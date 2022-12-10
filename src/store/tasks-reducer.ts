@@ -23,14 +23,27 @@ const initialState: TasksType = {
     ]
 }
 
-type ActionsType = RemoveTaskType | AddNewTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType | RemoveTodolistType
+const checkLocalStorage = () => {
+    const localStorageData = localStorage.getItem('tasks')
+    return localStorageData
+        ? JSON.parse(localStorageData)
+        : initialState
+}
+
+type ActionsType =
+    RemoveTaskType
+    | AddNewTaskType
+    | ChangeTaskTitleType
+    | ChangeTaskStatusType
+    | AddNewTodolistType
+    | RemoveTodolistType
 
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type AddNewTaskType = ReturnType<typeof addNewTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 
-export const tasksReducer = (state: TasksType = initialState, action: ActionsType) => {
+export const tasksReducer = (state: TasksType = checkLocalStorage(), action: ActionsType) => {
     switch (action.type) {
         case "REMOVE-TASK":
             return {
@@ -72,7 +85,6 @@ export const tasksReducer = (state: TasksType = initialState, action: ActionsTyp
             return state
     }
 }
-
 
 
 export const removeTaskAC = (todolistId: string, taskId: string) => (
