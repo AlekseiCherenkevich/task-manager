@@ -1,7 +1,7 @@
 import {addNewTodolist, removeTodolist, todolistsReducer, TodolistType } from "./todolists-reducer"
 import {tasksReducer, TasksType} from "./tasks-reducer";
 
-const initialTodolistsState: TodolistType[] = [
+export const initialTodolistsState: TodolistType[] = [
     {id: '1', title: 'todo 1', filter: 'all', sort: 'default'},
     {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
 ]
