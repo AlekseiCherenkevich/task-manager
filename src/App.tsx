@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {addNewTodolist, removeTodolist, TodolistType} from "./store/todolists-reducer";
 import {AppStateType} from "./store/store";
-import {addNewTask, removeTask, TasksType} from "./store/tasks-reducer";
+import {addNewTask, changeTaskStatus, removeTask, TasksType} from "./store/tasks-reducer";
 import './App.css'
 import {AddItemForm} from "./components/AddItemForm";
 
@@ -49,9 +49,12 @@ export const App = () => {
                                 const removeTaskHandler = () => {
                                     dispatch(removeTask(tl.id, t.id))
                                 }
+                                const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                                    dispatch(changeTaskStatus(tl.id, t.id, e.currentTarget.checked))
+                                }
 
                                 return <div key={t.id}>
-                                    <input type="checkbox"/>
+                                    <input onChange={changeTaskStatusHandler} type="checkbox"/>
                                     <span>{t.title}</span>
                                     <button onClick={removeTaskHandler}>-</button>
                                 </div>
