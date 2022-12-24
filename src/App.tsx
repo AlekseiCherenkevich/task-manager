@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {addNewTodolist, TodolistType} from "./store/todolists-reducer";
+import {addNewTodolist, removeTodolist, TodolistType} from "./store/todolists-reducer";
 import {AppStateType} from "./store/store";
-import {addNewTask, TasksType} from "./store/tasks-reducer";
+import {addNewTask, removeTask, TasksType} from "./store/tasks-reducer";
 import './App.css'
 import {AddItemForm} from "./components/AddItemForm";
 
@@ -25,12 +25,15 @@ export const App = () => {
                     const addNewTaskHandler = (taskTitle: string)  => {
                         dispatch(addNewTask(tl.id, taskTitle))
                     }
+                    const removeTodolistHandler = () => {
+                        dispatch(removeTodolist(tl.id))
+                    }
 
                     return <div key={tl.id}>
                         <div>
                             <div style={{display: 'flex'}}>
                                 <h5>{tl.title}</h5>
-                                <button>-</button>
+                                <button onClick={removeTodolistHandler}>-</button>
                             </div>
                             <div>
                                 <AddItemForm onClick={addNewTaskHandler}/>
@@ -43,10 +46,14 @@ export const App = () => {
                         </div>
                         <div>
                             {tasks[tl.id].map(t=>{
-
+                                const removeTaskHandler = () => {
+                                    dispatch(removeTask(tl.id, t.id))
+                                }
 
                                 return <div key={t.id}>
+                                    <input type="checkbox"/>
                                     <span>{t.title}</span>
+                                    <button onClick={removeTaskHandler}>-</button>
                                 </div>
                             })}
                         </div>
