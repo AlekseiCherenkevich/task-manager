@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import { AddNewTodolistType } from "./todolists-reducer";
+import {AddNewTodolistType, RemoveTodolist} from "./todolists-reducer";
 
 export type TasksType = {
     [key: string]: TaskType[]
@@ -10,7 +10,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-type ActionsType = AddNewTaskType | RemoveTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType
+type ActionsType = AddNewTaskType | RemoveTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType | RemoveTodolist
 
 type AddNewTaskType = ReturnType<typeof addNewTask>
 type RemoveTaskType = ReturnType<typeof removeTask>
@@ -19,7 +19,7 @@ type ChangeTaskStatusType = ReturnType<typeof changeTaskStatus>
 
 const initialState = {} as TasksType
 
-export const tasksReducer  = (state: TasksType = initialState, action: ActionsType) => {
+export const tasksReducer  = (state: TasksType = initialState, action: ActionsType): TasksType => {
     switch (action.type) {
         case "ADD-NEW-TASK":
             return {...state, [action.payload.todolistId]: [{id: action.payload.taskId, title: action.payload.taskTitle, isDone: false}, ...state[action.payload.todolistId]]}
@@ -31,6 +31,9 @@ export const tasksReducer  = (state: TasksType = initialState, action: ActionsTy
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.id===action.payload.taskId?{...t, isDone: action.payload.isDone}:t)}
         case "ADD-NEW-TODOLIST":
             return {...state, [action.payload.todolistId]: []}
+        case "REMOVE-TODOLIST":
+            delete state[action.payload.todolistId]
+            return state
         default: return state
     }
 }

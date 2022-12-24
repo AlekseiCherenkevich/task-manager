@@ -1,5 +1,5 @@
-import {addNewTodolist, todolistsReducer, TodolistType } from "./todolists-reducer"
-import {TasksType} from "./tasks-reducer";
+import {addNewTodolist, removeTodolist, todolistsReducer, TodolistType } from "./todolists-reducer"
+import {tasksReducer, TasksType} from "./tasks-reducer";
 
 const initialTodolistsState: TodolistType[] = [
     {id: '1', title: 'todo 1', filter: 'all', sort: 'default'},
@@ -33,4 +33,22 @@ test('new todolist should be added correctly', ()=>{
     expect(updatedTodolistsState[2].sort).toBe('default')
 
     expect(Object.keys(updatedTasksState).length).toBe(Object.keys(initialTasksState).length-1)
+})
+test('todolists should remove correctly', ()=>{
+    const action = removeTodolist('1')
+
+    const updatedTodolistsState = todolistsReducer(initialTodolistsState, action)
+    const updatedTasksState = tasksReducer(initialTasksState, action)
+
+    expect(updatedTodolistsState).toEqual([{id: '2', title: 'todo 2', filter: 'all', sort: 'default'}])
+    expect(updatedTasksState).toEqual({
+        '2': [
+            {id: '5', title: 'task 5', isDone: false},
+            {id: '6', title: 'task 6', isDone: true},
+            {id: '7', title: 'task 7', isDone: false}
+        ],
+    })
+    expect(updatedTasksState['2']).toBe(initialTasksState['2'])
+
+
 })
