@@ -1,4 +1,4 @@
-import {addNewTask, tasksReducer, TasksType} from "./tasks-reducer";
+import {addNewTask, removeTask, tasksReducer, TasksType} from "./tasks-reducer";
 
 
 const initialState: TasksType = {
@@ -23,4 +23,16 @@ test('new task should be added correctly' ,() => {
     expect(initialState['2']).toBe(updatedState['2'])
     expect(updatedState['1'].length).toBe(initialState['1'].length+1)
     expect(updatedState['1'][0].taskTitle).toBe('added task')
+})
+
+test('task should be removed correctly', ()=>{
+    const action = removeTask('1', '2')
+
+    const updatedState = tasksReducer(initialState, action)
+
+    expect(initialState['2']).toBe(updatedState['2'])
+    expect(updatedState['1']).toEqual([
+        {taskId: '1', taskTitle: 'task 1', isDone: false},
+        {taskId: '3', taskTitle: 'task 3', isDone: false}
+    ])
 })
