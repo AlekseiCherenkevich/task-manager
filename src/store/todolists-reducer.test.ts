@@ -1,4 +1,4 @@
-import {changeTodolistFilter, changeTodolistTitle, todolistsReducer, TodolistType} from "./todolists-reducer";
+import {changeTodolistFilter, changeTodolistSort, changeTodolistTitle, todolistsReducer, TodolistType} from "./todolists-reducer";
 
 
 const initialState: TodolistType[] = [
@@ -25,5 +25,17 @@ test('todolist filter should change correctly', ()=>{
         {id: '1', title: 'todo 1', filter: 'active', sort: 'default'},
         {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
     ])
+})
+test('todolist sort should change correctly', ()=>{
+    const action = changeTodolistSort('1', 'A-z')
+
+    const updatedState = todolistsReducer(initialState, action)
+
+    expect(updatedState).toEqual([
+        {id: '1', title: 'todo 1', filter: 'all', sort: 'A-z'},
+        {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
+    ])
+
+
 })
 

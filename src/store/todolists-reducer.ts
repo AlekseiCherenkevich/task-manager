@@ -11,11 +11,12 @@ export type TodolistType = {
 type FilterValuesType = 'all' | 'completed' | 'active'
 type SortValuesType = 'default' | 'A-z' | 'z-A'
 
-type ActionsType = AddNewTodolistType | RemoveTodolist | ChangeTodolistTitle | ChangeTodolistFilter
+type ActionsType = AddNewTodolistType | RemoveTodolist | ChangeTodolistTitle | ChangeTodolistFilter | ChangeTodolistSort
 export type AddNewTodolistType = ReturnType<typeof addNewTodolist>
 export type RemoveTodolist = ReturnType<typeof removeTodolist>
 type ChangeTodolistTitle = ReturnType<typeof changeTodolistTitle>
 type ChangeTodolistFilter = ReturnType<typeof changeTodolistFilter>
+type ChangeTodolistSort = ReturnType<typeof changeTodolistSort>
 
 const initialState = [] as TodolistType[]
 
@@ -39,6 +40,8 @@ export const todolistsReducer = (state: TodolistType[] = initialState, action: A
             } : tl)
         case "CHANGE-TODOLIST-FILTER":
             return state.map(tl => tl.id === action.payload.todolistId ? {...tl, filter: action.payload.filter} : tl)
+        case "CHANGE-TODOLIST-SORT":
+            return state.map(tl => tl.id === action.payload.todolistId ? {...tl, sort: action.payload.sort} : tl)
         default:
             return state
     }
@@ -54,3 +57,5 @@ export const changeTodolistTitle = (todolistId: string, todolistTitle: string) =
     {type: 'CHANGE-TODOLIST-TITLE', payload: {todolistId, todolistTitle}} as const)
 export const changeTodolistFilter = (todolistId: string, filter: FilterValuesType) => (
     {type: 'CHANGE-TODOLIST-FILTER', payload: {todolistId, filter}} as const)
+export const changeTodolistSort = (todolistId: string, sort: SortValuesType) => (
+    {type: 'CHANGE-TODOLIST-SORT', payload: {todolistId, sort}} as const)
