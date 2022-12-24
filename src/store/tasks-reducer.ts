@@ -1,4 +1,5 @@
 import {v1} from "uuid";
+import { AddNewTodolistType } from "./todolists-reducer";
 
 export type TasksType = {
     [key: string]: TaskType[]
@@ -9,7 +10,7 @@ export type TaskType = {
     isDone: boolean
 }
 
-type ActionsType = AddNewTaskType | RemoveTaskType | ChangeTaskTitleType | ChangeTaskStatusType
+type ActionsType = AddNewTaskType | RemoveTaskType | ChangeTaskTitleType | ChangeTaskStatusType | AddNewTodolistType
 
 type AddNewTaskType = ReturnType<typeof addNewTask>
 type RemoveTaskType = ReturnType<typeof removeTask>
@@ -28,6 +29,8 @@ export const tasksReducer  = (state: TasksType = initialState, action: ActionsTy
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.id===action.payload.taskId?{...t, title: action.payload.taskTitle}:t)}
         case "CHANGE-TASK-STATUS":
             return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.id===action.payload.taskId?{...t, isDone: action.payload.isDone}:t)}
+        case "ADD-NEW-TODOLIST":
+            return {...state, [action.payload.todolistId]: []}
         default: return state
     }
 }

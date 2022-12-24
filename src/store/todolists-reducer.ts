@@ -12,7 +12,7 @@ type FilterValuesType = 'all' | 'completed' | 'active'
 type SortValuesType = 'default' | 'A-z' | 'z-A'
 
 type ActionsType = AddNewTodolistType
-type AddNewTodolistType = ReturnType<typeof addNewTodolist>
+export type AddNewTodolistType = ReturnType<typeof addNewTodolist>
 
 const initialState = [] as TodolistType[]
 
@@ -20,12 +20,13 @@ const initialState = [] as TodolistType[]
 export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType) => {
     switch (action.type) {
         case "ADD-NEW-TODOLIST":
-            return [...state, {
+            const newTodolist = {
                 id: action.payload.todolistId,
                 title: action.payload.todolistTitle,
                 filter: 'all',
                 sort: "default"
-            }]
+            }
+            return state.length ? [...state, newTodolist] : [newTodolist]
 
         default:
             return state
