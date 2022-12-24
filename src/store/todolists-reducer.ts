@@ -8,8 +8,8 @@ export type TodolistType = {
     sort: SortValuesType
 }
 
-type FilterValuesType = 'all' | 'completed' | 'active'
-type SortValuesType = 'default' | 'A-z' | 'z-A'
+export type FilterValuesType = 'all' | 'completed' | 'active'
+export type SortValuesType = 'default' | 'A-z' | 'z-A'
 
 type ActionsType = AddNewTodolistType | RemoveTodolist | ChangeTodolistTitle | ChangeTodolistFilter | ChangeTodolistSort
 export type AddNewTodolistType = ReturnType<typeof addNewTodolist>
