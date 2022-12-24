@@ -24,7 +24,7 @@ test('new todolist should be added correctly', ()=>{
 
 
     const updatedTodolistsState = todolistsReducer(initialTodolistsState, action)
-    const updatedTasksState = todolistsReducer(initialTasksState, action)
+    const updatedTasksState = tasksReducer(initialTasksState, action)
 
 
     expect(updatedTodolistsState.length).toBe(initialTodolistsState.length+1)
@@ -32,7 +32,7 @@ test('new todolist should be added correctly', ()=>{
     expect(updatedTodolistsState[2].filter).toBe('all')
     expect(updatedTodolistsState[2].sort).toBe('default')
 
-    expect(Object.keys(updatedTasksState).length).toBe(Object.keys(initialTasksState).length-1)
+    expect(Object.keys(updatedTasksState).length).toBe((Object.keys(initialTasksState).length) + 1)
 })
 test('todolists should remove correctly', ()=>{
     const action = removeTodolist('1')
