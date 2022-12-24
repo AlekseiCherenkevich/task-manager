@@ -4,8 +4,8 @@ export type TasksType = {
     [key: string]: TaskType[]
 }
 export type TaskType = {
-    taskId: string
-    taskTitle: string
+    id: string
+    title: string
     isDone: boolean
 }
 
@@ -16,21 +16,20 @@ type RemoveTaskType = ReturnType<typeof removeTask>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitle>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatus>
 
+const initialState = {} as TasksType
 
-export const tasksReducer  = (state: TasksType, action: ActionsType) => {
+export const tasksReducer  = (state: TasksType = initialState, action: ActionsType) => {
     switch (action.type) {
         case "ADD-NEW-TASK":
-            return {...state, [action.payload.todolistId]: [{taskId: action.payload.taskId, taskTitle: action.payload.taskTitle, isDone: false}, ...state[action.payload.todolistId]]}
+            return {...state, [action.payload.todolistId]: [{id: action.payload.taskId, title: action.payload.taskTitle, isDone: false}, ...state[action.payload.todolistId]]}
         case "REMOVE-TASK":
-        return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(t=>t.taskId!==action.payload.taskId)}
+        return {...state, [action.payload.todolistId]: state[action.payload.todolistId].filter(t=>t.id!==action.payload.taskId)}
         case "CHANGE-TASK-TITLE":
-            return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.taskId===action.payload.taskId?{...t, taskTitle: action.payload.taskTitle}:t)}
+            return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.id===action.payload.taskId?{...t, title: action.payload.taskTitle}:t)}
         case "CHANGE-TASK-STATUS":
-            return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.taskId===action.payload.taskId?{...t, isDone: action.payload.isDone}:t)}
+            return {...state, [action.payload.todolistId]: state[action.payload.todolistId].map(t=>t.id===action.payload.taskId?{...t, isDone: action.payload.isDone}:t)}
         default: return state
     }
-
-
 }
 
 export const addNewTask = (todolistId: string, taskTitle: string) => (
