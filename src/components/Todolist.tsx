@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {addNewTask, TasksType} from "../store/tasks-reducer";
 import {
     changeTodolistFilter,
@@ -29,6 +29,10 @@ type TodolistPropsType = {
 export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort}) => {
     const dispatch = useDispatch()
     const tasks = useSelector<AppStateType, TasksType>(state => state.tasks)
+
+    useEffect(()=>{
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }, [tasks])
 
     const addNewTaskHandler = (taskTitle: string) => {
         dispatch(addNewTask(id, taskTitle))

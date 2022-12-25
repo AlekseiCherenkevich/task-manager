@@ -23,9 +23,17 @@ type RemoveTaskType = ReturnType<typeof removeTask>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitle>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatus>
 
-const initialState = {} as TasksType
 
-export const tasksReducer = (state: TasksType = initialState, action: ActionsType): TasksType => {
+const checkLocalStorage = () => {
+    const state = localStorage.getItem('tasks')
+    if (state) {
+        return JSON.parse(state)
+    } else {
+        return {} as TasksType
+    }
+}
+
+export const tasksReducer = (state: TasksType = checkLocalStorage(), action: ActionsType): TasksType => {
     switch (action.type) {
         case "ADD-NEW-TASK":
             return {

@@ -18,10 +18,17 @@ type ChangeTodolistTitle = ReturnType<typeof changeTodolistTitle>
 type ChangeTodolistFilter = ReturnType<typeof changeTodolistFilter>
 type ChangeTodolistSort = ReturnType<typeof changeTodolistSort>
 
-const initialState = [] as TodolistType[]
 
+const checkLocalStorage = () => {
+    const state = localStorage.getItem('todolists')
+    if (state) {
+        return JSON.parse(state)
+    } else {
+        return [] as TodolistType[]
+    }
+}
 
-export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType): TodolistType[] => {
+export const todolistsReducer = (state: TodolistType[] = checkLocalStorage(), action: ActionsType): TodolistType[] => {
     switch (action.type) {
         case "ADD-NEW-TODOLIST":
             const newTodolist: TodolistType = {

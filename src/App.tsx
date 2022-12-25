@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {addNewTodolist, TodolistType} from "./store/todolists-reducer";
 import {AppStateType} from "./store/store";
@@ -19,6 +19,9 @@ export const App = () => {
     const dispatch = useDispatch()
     const todolists = useSelector<AppStateType, TodolistType[]>(state => state.todolists)
 
+    useEffect(()=>{
+        localStorage.setItem('todolists', JSON.stringify(todolists))
+    }, [todolists])
 
     const addNewTodolistHandler = (todolistTitle: string) => {
         dispatch(addNewTodolist(todolistTitle))
