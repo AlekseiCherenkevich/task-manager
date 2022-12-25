@@ -1,6 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {useDispatch} from "react-redux";
-import {changeTaskStatus, removeTask} from "../store/tasks-reducer";
+import {changeTaskStatus, changeTaskTitle, removeTask} from "../store/tasks-reducer";
+import {EditableSpan} from "./EditableSpan";
 
 type TaskPropsType = {
     todolistId: string
@@ -19,10 +20,13 @@ export const Task: React.FC<TaskPropsType> = ({todolistId, id, title, isDone}) =
         dispatch(changeTaskStatus(todolistId, id, e.currentTarget.checked))
     }
 
+    const changeTaskTitleHandler = (taskTitle: string) => {
+        dispatch(changeTaskTitle(todolistId, id, taskTitle))
+    }
 
-    return <div key={id}>
+    return <div key={id} style={{display: 'flex'}}>
         <input checked={isDone} onChange={changeTaskStatusHandler} type="checkbox"/>
-        <span>{title}</span>
+        <EditableSpan value={title} callback={changeTaskTitleHandler}/>
         <button onClick={removeTaskHandler}>-</button>
     </div>
 }

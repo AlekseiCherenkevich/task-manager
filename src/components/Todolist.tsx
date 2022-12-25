@@ -3,6 +3,7 @@ import {addNewTask, TasksType} from "../store/tasks-reducer";
 import {
     changeTodolistFilter,
     changeTodolistSort,
+    changeTodolistTitle,
     FilterValuesType,
     removeTodolist,
     SortValuesType
@@ -11,6 +12,7 @@ import {AddItemForm} from "./AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../store/store";
 import {Task} from './Task';
+import {EditableSpan} from './EditableSpan';
 
 type TodolistPropsType = {
     id: string
@@ -35,6 +37,9 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
     const changeTodolistSortHandler = (sort: SortValuesType) => () => {
         dispatch(changeTodolistSort(id, sort))
     }
+    const changeTodolistTitleHandler = (todolistTitle: string) => {
+        dispatch(changeTodolistTitle(id, todolistTitle))
+    }
 
     let filteredSortedTasks = tasks[id]
 
@@ -54,9 +59,10 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
     return <div key={id}>
         <div>
             <div style={{display: 'flex'}}>
-                <h5>{title}</h5>
+                <EditableSpan value={title} callback={changeTodolistTitleHandler}/>
                 <button onClick={removeTodolistHandler}>-</button>
             </div>
+
             <div>
                 <AddItemForm onClick={addNewTaskHandler}/>
             </div>
@@ -78,5 +84,4 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
         </div>
     </div>
 }
-
 
