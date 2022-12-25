@@ -13,6 +13,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../store/store";
 import {Task} from './Task';
 import {EditableSpan} from './EditableSpan';
+import {FilteringButtonsGroup} from './FilteringButtonsGroup';
 
 type TodolistPropsType = {
     id: string
@@ -67,21 +68,20 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
                 <AddItemForm onClick={addNewTaskHandler}/>
             </div>
         </div>
-        <div>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
             <button onClick={changeTodolistSortHandler("default")}>Default</button>
             <button onClick={changeTodolistSortHandler("A-z")}>A-z</button>
             <button onClick={changeTodolistSortHandler("z-A")}>z-A</button>
         </div>
-        <div>
+        <div style={{minHeight: '50px'}}>
             {filteredSortedTasks.map(t => {
                 return <Task todolistId={id} {...t}/>
             })}
+            {filteredSortedTasks.length===0 && <div style={{textAlign: 'center'}}>Tasks not found</div>}
         </div>
-        <div>
-            <button onClick={changeTodolistFilterHandler("all")}>All</button>
-            <button onClick={changeTodolistFilterHandler("active")}>Active</button>
-            <button onClick={changeTodolistFilterHandler("completed")}>Completed</button>
-        </div>
+        <FilteringButtonsGroup filter={filter} callback={changeTodolistFilterHandler}/>
     </div>
 }
+
+
 
