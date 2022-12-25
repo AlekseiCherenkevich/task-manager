@@ -1,5 +1,5 @@
-import React, {ChangeEvent} from 'react';
-import {addNewTask, changeTaskStatus, removeTask, TasksType} from "../store/tasks-reducer";
+import React from 'react';
+import {addNewTask, TasksType} from "../store/tasks-reducer";
 import {
     changeTodolistFilter,
     changeTodolistSort,
@@ -10,6 +10,7 @@ import {
 import {AddItemForm} from "./AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../store/store";
+import {Task} from './Task';
 
 type TodolistPropsType = {
     id: string
@@ -67,19 +68,7 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
         </div>
         <div>
             {filteredSortedTasks.map(t => {
-                const removeTaskHandler = () => {
-                    dispatch(removeTask(id, t.id))
-                }
-                const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                    dispatch(changeTaskStatus(id, t.id, e.currentTarget.checked))
-                }
-
-
-                return <div key={t.id}>
-                    <input checked={t.isDone} onChange={changeTaskStatusHandler} type="checkbox"/>
-                    <span>{t.title}</span>
-                    <button onClick={removeTaskHandler}>-</button>
-                </div>
+                return <Task todolistId={id} {...t}/>
             })}
         </div>
         <div>
@@ -89,3 +78,5 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
         </div>
     </div>
 }
+
+
