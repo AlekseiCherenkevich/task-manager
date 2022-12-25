@@ -14,6 +14,7 @@ import {AppStateType} from "../store/store";
 import {Task} from './Task';
 import {EditableSpan} from './EditableSpan';
 import {FilteringButtonsGroup} from './FilteringButtonsGroup';
+import {SortingButtonsGroup} from "./SortingButtonsGroup";
 
 type TodolistPropsType = {
     id: string
@@ -68,11 +69,7 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
                 <AddItemForm onClick={addNewTaskHandler}/>
             </div>
         </div>
-        <div style={{display: 'flex', justifyContent: 'center'}}>
-            <button onClick={changeTodolistSortHandler("default")}>Default</button>
-            <button onClick={changeTodolistSortHandler("A-z")}>A-z</button>
-            <button onClick={changeTodolistSortHandler("z-A")}>z-A</button>
-        </div>
+        <SortingButtonsGroup sort={sort} callback={changeTodolistSortHandler}/>
         <div style={{minHeight: '50px'}}>
             {filteredSortedTasks.map(t => {
                 return <Task todolistId={id} {...t}/>
