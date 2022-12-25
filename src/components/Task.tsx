@@ -2,6 +2,9 @@ import React, {ChangeEvent} from "react";
 import {useDispatch} from "react-redux";
 import {changeTaskStatus, changeTaskTitle, removeTask} from "../store/tasks-reducer";
 import {EditableSpan} from "./EditableSpan";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Checkbox from '@mui/material/Checkbox';
 
 type TaskPropsType = {
     todolistId: string
@@ -25,8 +28,22 @@ export const Task: React.FC<TaskPropsType> = ({todolistId, id, title, isDone}) =
     }
 
     return <div key={id} style={{display: 'flex'}}>
-        <input checked={isDone} onChange={changeTaskStatusHandler} type="checkbox"/>
-        <EditableSpan value={title} callback={changeTaskTitleHandler}/>
-        <button onClick={removeTaskHandler}>-</button>
+        <Checkbox checked={isDone}
+                  size={"small"}
+               onChange={changeTaskStatusHandler}
+               style={{transform: 'translateY(-7px)'}}
+        />
+        <EditableSpan value={title}
+                      callback={changeTaskTitleHandler}
+                      variant={"body1"}
+                      fontSize={'16px'}
+        />
+        <IconButton size={"small"}
+                    onClick={removeTaskHandler}
+                    color={"error"}
+                    style={{transform: 'translateY(-7px)'}}
+        >
+            <DeleteIcon/>
+        </IconButton>
     </div>
 }

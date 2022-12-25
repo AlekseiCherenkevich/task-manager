@@ -15,6 +15,9 @@ import {Task} from './Task';
 import {EditableSpan} from './EditableSpan';
 import {FilteringButtonsGroup} from './FilteringButtonsGroup';
 import {SortingButtonsGroup} from "./SortingButtonsGroup";
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Typography from '@mui/material/Typography';
 
 type TodolistPropsType = {
     id: string
@@ -60,21 +63,20 @@ export const Todolist: React.FC<TodolistPropsType> = ({id, title, filter, sort})
 
     return <div key={id}>
         <div>
-            <div style={{display: 'flex'}}>
-                <EditableSpan value={title} callback={changeTodolistTitleHandler}/>
-                <button onClick={removeTodolistHandler}>-</button>
+            <div style={{display: 'flex', justifyContent: 'center'}}>
+                <EditableSpan value={title} callback={changeTodolistTitleHandler} variant={"h6"} fontSize={'20px'}/>
+                <IconButton size={"small"} color={"error"} style={{transform: 'translateY(-5px)'}}>
+                    <DeleteIcon onClick={removeTodolistHandler}/>
+                </IconButton>
             </div>
-
-            <div>
-                <AddItemForm onClick={addNewTaskHandler}/>
-            </div>
+            <AddItemForm onClick={addNewTaskHandler} placeholder={'Enter task'}/>
         </div>
         <SortingButtonsGroup sort={sort} callback={changeTodolistSortHandler}/>
-        <div style={{minHeight: '50px'}}>
+        <div style={{minHeight: '50px', marginTop: '10px', paddingLeft: '20px'}}>
             {filteredSortedTasks.map(t => {
                 return <Task todolistId={id} {...t}/>
             })}
-            {filteredSortedTasks.length===0 && <div style={{textAlign: 'center'}}>Tasks not found</div>}
+            {filteredSortedTasks.length===0 && <Typography variant={"body1"} style={{paddingLeft: '30px'}}>Tasks not found</Typography>}
         </div>
         <FilteringButtonsGroup filter={filter} callback={changeTodolistFilterHandler}/>
     </div>

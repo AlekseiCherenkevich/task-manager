@@ -14,12 +14,15 @@ export const SortingButtonsGroup: React.FC<SortingButtonsGroupPropsType> = ({sor
     >
         <Button onClick={callback("default")}
                 variant={sort==="default"?"contained":"outlined"}
+                size={"small"}
         >Default</Button>
         <Button onClick={callback("A-z")}
                 variant={sort==="A-z"?"contained":"outlined"}
+                size={"small"}
         >A-z</Button>
         <Button onClick={callback("z-A")}
                 variant={sort==="z-A"?"contained":"outlined"}
+                size={"small"}
         >z-A</Button>
     </Stack>
 }

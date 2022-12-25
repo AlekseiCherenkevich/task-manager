@@ -14,12 +14,15 @@ export const FilteringButtonsGroup: React.FC<FilteringButtonsGroupPropsType> = (
     >
         <Button onClick={callback("all")}
                 variant={filter==="all"?"contained":"outlined"}
+                size={"small"}
         >All</Button>
         <Button onClick={callback("active")}
                 variant={filter==="active"?"contained":"outlined"}
+                size={"small"}
         >Active</Button>
         <Button onClick={callback("completed")}
                 variant={filter==="completed"?"contained":"outlined"}
+                size={"small"}
         >Completed</Button>
     </Stack>
 }

@@ -1,6 +1,10 @@
 import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
+import Typography from '@mui/material/Typography';
+
 
 type EditableSpan = {
+    variant?: 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'button' | 'caption' | 'overline'
+    fontSize?: string
     value: string
     callback: (value: string) => void
 }
@@ -9,9 +13,15 @@ export const EditableSpan: React.FC<EditableSpan> = (props) => {
     const [error, setError] = useState('')
     const [isEdit, setIsEdit] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
         setValue(props.value)
     }, [props.value])
+
+    useEffect(()=>{
+        if (value.trim().length!==0) {
+            setError('')
+        }
+    },[value])
 
     const activateEditMode = () => {
         setIsEdit(true)
@@ -34,21 +44,25 @@ export const EditableSpan: React.FC<EditableSpan> = (props) => {
     }
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
-        if (value.trim().length === 0) {
-            setError('')
-        }
     }
 
-    return isEdit
-        ? <div>
-            <input autoFocus={true}
-                   type="text"
-                   value={value}
-                   onBlur={deactivateEditMode}
-                   onKeyPress={onEnterPress}
-                   onChange={onChangeInputHandler}
-            />
-            {error && <div>{error}</div>}
-        </div>
-        : <h5 onDoubleClick={activateEditMode}>{props.value}</h5>
+    return <div style={{height: '40px'}}>
+        {isEdit
+            ? <div >
+                <input autoFocus={true}
+                       type="text"
+                       value={value}
+                       onBlur={deactivateEditMode}
+                       onKeyPress={onEnterPress}
+                       onChange={onChangeInputHandler}
+                       style={{outline: 'none', fontSize: `${props.fontSize}`}}
+                />
+                {error && <div style={{color: 'red', fontSize: '12px'}}>{error}</div>}
+            </div>
+            : <Typography
+                onDoubleClick={activateEditMode}
+                variant={props.variant}
+            >{props.value}</Typography>
+        }
+    </div>
 }
