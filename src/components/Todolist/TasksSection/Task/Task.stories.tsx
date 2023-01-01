@@ -13,11 +13,12 @@ export default {
 } as ComponentMeta<typeof Task>
 
 const TaskContainer = () => {
-    const task = useSelector<AppStateType, TaskType>(state => state.tasks['1'][0])
-    return <Task todolistId={'1'} {...task} />
+    const tasks = useSelector<AppStateType, TaskType[]>(state => state.tasks['1'])
+    const task = tasks.find(t=>t.id==='x1')
+    return task ? <Task todolistId={'1'} {...task} /> : <div>Task was deleted</div>
 }
 
 const Template: ComponentStory<typeof Task> = () => <TaskContainer/>
 
-export const TaskHistory = Template.bind({})
+export const TaskStory = Template.bind({})
 
