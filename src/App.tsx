@@ -3,12 +3,12 @@ import {useSelector} from "react-redux";
 import {TodolistType} from "./store/todolists-reducer";
 import {AppStateType} from "./store/store";
 import './App.css'
-import {Todolist} from "./components/Todolist";
+import {Todolist} from "./components/Todolist/Todolist";
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {AddTodoListForm} from "./components/AddTodoListForm";
-import {Header} from "./components/Header";
+import {AddTodoListForm} from "./components/AddTodoListForm/AddTodoListForm";
+import {Header} from "./components/Header/Header";
 
 export const App = () => {
     const todolists = useSelector<AppStateType, TodolistType[]>(state => state.todolists)

@@ -1,13 +1,13 @@
 import {FC, memo, useCallback, useEffect} from 'react';
-import {addNewTask, TasksType} from "../store/tasks-reducer";
-import {FilterValuesType, SortValuesType} from "../store/todolists-reducer";
-import {AddItemForm} from "./AddItemForm";
+import {addNewTask, TasksType} from "../../store/tasks-reducer";
+import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
+import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../store/store";
-import {FilteringButtonsGroup} from './FilteringButtonsGroup';
-import {SortingButtonsGroup} from "./SortingButtonsGroup";
-import {TodolistTitleSection} from "./TodolistTitleSection";
-import {TasksSection} from "./TasksSection";
+import {AppStateType} from "../../store/store";
+import {FilteringButtonsGroup} from './FilteringButtonsGroup/FilteringButtonsGroup';
+import {SortingButtonsGroup} from "./SortingButtonsGroup/SortingButtonsGroup";
+import {TodolistTitleSection} from "./TodolistTitleSection/TodolistTitleSection";
+import {TasksSection} from "./TasksSection/TasksSection";
 
 type TodolistPropsType = {
     id: string

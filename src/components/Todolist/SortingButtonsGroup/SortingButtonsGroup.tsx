@@ -1,4 +1,4 @@
-import {changeTodolistSort, SortValuesType} from "../store/todolists-reducer";
+import {changeTodolistSort, SortValuesType} from "../../../store/todolists-reducer";
 import {FC, memo } from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";

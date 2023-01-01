@@ -1,6 +1,6 @@
-import {TaskType} from "../store/tasks-reducer";
+import {TaskType} from "../../../store/tasks-reducer";
 import {FC, memo} from "react";
-import {Task} from "./Task";
+import {Task} from "./Task/Task";
 import Typography from "@mui/material/Typography";
 
 type TasksSectionPropsType = {

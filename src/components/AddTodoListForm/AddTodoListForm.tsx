@@ -1,8 +1,8 @@
 import {useCallback} from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import {AddItemForm} from "./AddItemForm";
-import {addNewTodolist} from "../store/todolists-reducer";
+import {AddItemForm} from "../common/AddItemForm/AddItemForm";
+import {addNewTodolist} from "../../store/todolists-reducer";
 import {useDispatch} from "react-redux";
 
 export const AddTodoListForm = () => {
