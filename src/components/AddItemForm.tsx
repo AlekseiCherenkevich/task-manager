@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from "react";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -7,19 +7,20 @@ type AddItemFormType = {
     placeholder?: string
 }
 
-export const AddItemForm: React.FC<AddItemFormType> = (props) => {
+export const AddItemForm: React.FC<AddItemFormType> = React.memo( (props) => {
     const [value, setValue] = useState('')
     const [error, setError] = useState('')
-
     useEffect(()=>{
         if (value.trim().length!==0) {
-            setError('')
+            if (!!error) {
+                setError('')
+            }
         }
     },[value])
 
-    const onChangeHandler = (e:ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = useCallback ((e:ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
-    }
+    }, [props.onClick])
     const onCLickHandler = () => {
         if (value.trim().length!==0) {
             props.onClick(value)
@@ -55,5 +56,5 @@ export const AddItemForm: React.FC<AddItemFormType> = (props) => {
             onClick={onCLickHandler}
         >+</Button>
     </div>
-}
+})
 
