@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from "react";
+import React, {ChangeEvent, FC, memo, useCallback} from "react";
 import {useDispatch} from "react-redux";
 import {changeTaskStatus, changeTaskTitle, removeTask} from "../store/tasks-reducer";
 import {EditableSpan} from "./EditableSpan";
@@ -13,19 +13,19 @@ type TaskPropsType = {
     isDone: boolean
 }
 
-export const Task: React.FC<TaskPropsType> = ({todolistId, id, title, isDone}) => {
+export const Task: FC<TaskPropsType> = memo( ({todolistId, id, title, isDone}) => {
     const dispatch = useDispatch()
 
-    const removeTaskHandler = () => {
+    const removeTaskHandler = useCallback(() => {
         dispatch(removeTask(todolistId, id))
-    }
-    const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    },[dispatch, todolistId, id])
+    const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         dispatch(changeTaskStatus(todolistId, id, e.currentTarget.checked))
-    }
+    },[dispatch, todolistId, id])
 
-    const changeTaskTitleHandler = (taskTitle: string) => {
+    const changeTaskTitleHandler = useCallback((taskTitle: string) => {
         dispatch(changeTaskTitle(todolistId, id, taskTitle))
-    }
+    },[dispatch, todolistId, id])
 
     return <div key={id} style={{display: 'flex'}}>
         <Checkbox checked={isDone}
@@ -46,4 +46,4 @@ export const Task: React.FC<TaskPropsType> = ({todolistId, id, title, isDone}) =
             <DeleteIcon/>
         </IconButton>
     </div>
-}
+})
