@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useEffect, useState} from "react";
+import {ChangeEvent, FC, KeyboardEvent, memo, useEffect, useState} from "react";
 import Typography from '@mui/material/Typography';
 
 
@@ -8,7 +8,7 @@ type EditableSpan = {
     value: string
     callback: (value: string) => void
 }
-export const EditableSpan: React.FC<EditableSpan> = (props) => {
+export const EditableSpan: FC<EditableSpan> = memo( (props) => {
     const [value, setValue] = useState(props.value)
     const [error, setError] = useState('')
     const [isEdit, setIsEdit] = useState(false)
@@ -65,4 +65,4 @@ export const EditableSpan: React.FC<EditableSpan> = (props) => {
             >{props.value}</Typography>
         }
     </div>
-}
+})
