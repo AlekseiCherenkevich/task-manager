@@ -5,12 +5,11 @@ import Typography from "@mui/material/Typography";
 
 type TasksSectionPropsType = {
     filteredSortedTasks: TaskType[]
-    id: string
 }
-export const TasksSection: FC<TasksSectionPropsType> = memo(({filteredSortedTasks, id}) => {
+export const TasksSection: FC<TasksSectionPropsType> = memo(({filteredSortedTasks}) => {
     return <div style={{minHeight: '50px', marginTop: '10px', paddingLeft: '20px'}}>
         {filteredSortedTasks.map(t => {
-            return <Task todolistId={id} {...t}/>
+            return <Task {...t}/>
         })}
         {filteredSortedTasks.length === 0 &&
             <Typography variant={"body1"} style={{paddingLeft: '30px'}}>Tasks not found</Typography>}

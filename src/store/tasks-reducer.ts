@@ -7,7 +7,29 @@ export type TasksType = {
 export type TaskType = {
     id: string
     title: string
-    isDone: boolean
+    description: string
+    todoListId: string
+    order: number
+    status: TaskStatuses
+    priority: TaskPriorities
+    startDate: string | null
+    deadline: string | null
+    addedDate: string
+}
+
+export enum TaskStatuses {
+    New = 0,
+    InProgress = 1,
+    Completed = 2,
+    Draft = 3
+}
+
+export enum TaskPriorities {
+    Low,
+    Middle,
+    Hi,
+    Urgently,
+    Later
 }
 
 type ActionsType =
@@ -41,7 +63,14 @@ export const tasksReducer = (state: TasksType = checkLocalStorage(), action: Act
                 [action.payload.todolistId]: [{
                     id: action.payload.taskId,
                     title: action.payload.taskTitle,
-                    isDone: false
+                    addedDate: '',
+                    order: 0,
+                    deadline: '',
+                    startDate: '',
+                    description: '',
+                    todoListId: action.payload.todolistId,
+                    priority: TaskPriorities.Middle,
+                    status: TaskStatuses.New
                 }, ...state[action.payload.todolistId]]
             }
         case "REMOVE-TASK":
@@ -62,7 +91,7 @@ export const tasksReducer = (state: TasksType = checkLocalStorage(), action: Act
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId].map(t => t.id === action.payload.taskId ? {
                     ...t,
-                    isDone: action.payload.isDone
+                    status: action.payload.status
                 } : t)
             }
         case "ADD-NEW-TODOLIST":
@@ -85,5 +114,5 @@ export const removeTask = (todolistId: string, taskId: string) => (
 export const changeTaskTitle = (todolistId: string, taskId: string, taskTitle: string) => (
     {type: 'CHANGE-TASK-TITLE', payload: {todolistId, taskId, taskTitle}} as const
 )
-export const changeTaskStatus = (todolistId: string, taskId: string, isDone: boolean) => (
-    {type: 'CHANGE-TASK-STATUS', payload: {todolistId, taskId, isDone}} as const)
+export const changeTaskStatus = (todolistId: string, taskId: string, status: TaskStatuses) => (
+    {type: 'CHANGE-TASK-STATUS', payload: {todolistId, taskId, status}} as const)

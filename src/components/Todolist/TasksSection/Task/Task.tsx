@@ -1,34 +1,28 @@
 import React, {ChangeEvent, FC, memo, useCallback} from "react";
 import {useDispatch} from "react-redux";
-import {changeTaskStatus, changeTaskTitle, removeTask} from "../../../../store/tasks-reducer";
+import {changeTaskStatus, changeTaskTitle, removeTask, TaskStatuses, TaskType} from "../../../../store/tasks-reducer";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
 
-type TaskPropsType = {
-    todolistId: string
-    id: string
-    title: string
-    isDone: boolean
-}
-
-export const Task: FC<TaskPropsType> = memo( ({todolistId, id, title, isDone}) => {
+export const Task: FC<TaskType> = memo( ({todoListId, id, title, status}) => {
     const dispatch = useDispatch()
 
     const removeTaskHandler = useCallback(() => {
-        dispatch(removeTask(todolistId, id))
-    },[dispatch, todolistId, id])
+        dispatch(removeTask(todoListId, id))
+    },[dispatch, todoListId, id])
     const changeTaskStatusHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatus(todolistId, id, e.currentTarget.checked))
-    },[dispatch, todolistId, id])
+        let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
+        dispatch(changeTaskStatus(todoListId, id, status))
+    },[dispatch, todoListId, id])
 
     const changeTaskTitleHandler = useCallback((taskTitle: string) => {
-        dispatch(changeTaskTitle(todolistId, id, taskTitle))
-    },[dispatch, todolistId, id])
+        dispatch(changeTaskTitle(todoListId, id, taskTitle))
+    },[dispatch, todoListId, id])
 
     return <div key={id} style={{display: 'flex'}}>
-        <Checkbox checked={isDone}
+        <Checkbox checked={status === TaskStatuses.Completed}
                   size={"small"}
                onChange={changeTaskStatusHandler}
                style={{transform: 'translateY(-7px)'}}

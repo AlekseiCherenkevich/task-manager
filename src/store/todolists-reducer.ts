@@ -4,9 +4,13 @@ import {v1} from "uuid"
 export type TodolistType = {
     id: string
     title: string
-    filter: FilterValuesType
-    sort: SortValuesType
+    addedDate: string
+    order: number
+    // filter: FilterValuesType
+    // sort: SortValuesType
 }
+
+export type TodolistEntityType = TodolistType & {filter: FilterValuesType, sort: SortValuesType}
 
 export type FilterValuesType = 'all' | 'completed' | 'active'
 export type SortValuesType = 'default' | 'A-z' | 'z-A'
@@ -24,18 +28,20 @@ const checkLocalStorage = () => {
     if (state) {
         return JSON.parse(state)
     } else {
-        return [] as TodolistType[]
+        return [] as TodolistEntityType[]
     }
 }
 
-export const todolistsReducer = (state: TodolistType[] = checkLocalStorage(), action: ActionsType): TodolistType[] => {
+export const todolistsReducer = (state: TodolistEntityType[] = checkLocalStorage(), action: ActionsType): TodolistEntityType[] => {
     switch (action.type) {
         case "ADD-NEW-TODOLIST":
-            const newTodolist: TodolistType = {
+            const newTodolist: TodolistEntityType = {
                 id: action.payload.todolistId,
                 title: action.payload.todolistTitle,
                 filter: 'all',
-                sort: "default"
+                sort: "default",
+                addedDate: '',
+                order: 0
             }
             return state.length ? [...state, newTodolist] : [newTodolist]
         case "REMOVE-TODOLIST":

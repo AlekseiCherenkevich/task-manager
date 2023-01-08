@@ -1,6 +1,6 @@
 import {FC, memo, useCallback, useEffect} from 'react';
-import {addNewTask, TasksType} from "../../store/tasks-reducer";
-import {FilterValuesType, SortValuesType} from "../../store/todolists-reducer";
+import {addNewTask, TaskStatuses, TasksType} from "../../store/tasks-reducer";
+import {TodolistEntityType} from "../../store/todolists-reducer";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../store/store";
@@ -9,14 +9,8 @@ import {SortingButtonsGroup} from "./SortingButtonsGroup/SortingButtonsGroup";
 import {TodolistTitleSection} from "./TodolistTitleSection/TodolistTitleSection";
 import {TasksSection} from "./TasksSection/TasksSection";
 
-type TodolistPropsType = {
-    id: string
-    title: string
-    filter: FilterValuesType
-    sort: SortValuesType
-}
 
-export const Todolist: FC<TodolistPropsType> = memo(({id, title, filter, sort}) => {
+export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort}) => {
     const dispatch = useDispatch()
     const tasks = useSelector<AppStateType, TasksType>(state => state.tasks)
 
@@ -31,10 +25,10 @@ export const Todolist: FC<TodolistPropsType> = memo(({id, title, filter, sort}) 
     let filteredSortedTasks = tasks[id]
 
     if (filter === "active") {
-        filteredSortedTasks = filteredSortedTasks.filter(t => !t.isDone)
+        filteredSortedTasks = filteredSortedTasks.filter(t => t.status === TaskStatuses.New)
     }
     if (filter === "completed") {
-        filteredSortedTasks = filteredSortedTasks.filter(t => t.isDone)
+        filteredSortedTasks = filteredSortedTasks.filter(t => t.status === TaskStatuses.Completed)
     }
     if (sort === "A-z") {
         filteredSortedTasks = [...filteredSortedTasks].sort((a, b) => a.title.localeCompare(b.title))
@@ -49,7 +43,7 @@ export const Todolist: FC<TodolistPropsType> = memo(({id, title, filter, sort}) 
             <AddItemForm onClick={addNewTaskHandler} placeholder={'Enter task'}/>
         </div>
         <SortingButtonsGroup sort={sort} id={id}/>
-        <TasksSection filteredSortedTasks={filteredSortedTasks} id={id}/>
+        <TasksSection filteredSortedTasks={filteredSortedTasks}/>
         <FilteringButtonsGroup filter={filter} id={id}/>
     </div>
 });

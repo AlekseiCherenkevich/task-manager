@@ -1,9 +1,15 @@
-import {changeTodolistFilter, changeTodolistSort, changeTodolistTitle, todolistsReducer, TodolistType} from "./todolists-reducer";
+import {
+    changeTodolistFilter,
+    changeTodolistSort,
+    changeTodolistTitle,
+    TodolistEntityType,
+    todolistsReducer
+} from "./todolists-reducer";
 
 
-const initialState: TodolistType[] = [
-    {id: '1', title: 'todo 1', filter: 'all', sort: 'default'},
-    {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
+const initialState: TodolistEntityType[] = [
+    {id: '1', title: 'todo 1', filter: 'all', sort: 'default', order: 1, addedDate: ''},
+    {id: '2', title: 'todo 2', filter: 'all', sort: 'default', order: 1, addedDate: ''},
 ]
 
 test('todolist title should be changed correctly', ()=>{
@@ -12,8 +18,8 @@ test('todolist title should be changed correctly', ()=>{
     const updatedState = todolistsReducer(initialState, action)
 
     expect(updatedState).toEqual([
-        {id: '1', title: 'changed title', filter: 'all', sort: 'default'},
-        {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
+        {id: '1', title: 'changed title', filter: 'all', sort: 'default', order: 1, addedDate: ''},
+        {id: '2', title: 'todo 2', filter: 'all', sort: 'default', order: 1, addedDate: ''},
     ])
 })
 test('todolist filter should change correctly', ()=>{
@@ -22,8 +28,8 @@ test('todolist filter should change correctly', ()=>{
     const updatedState = todolistsReducer(initialState, action)
 
     expect(updatedState).toEqual([
-        {id: '1', title: 'todo 1', filter: 'active', sort: 'default'},
-        {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
+        {id: '1', title: 'todo 1', filter: 'active', sort: 'default', order: 1, addedDate: ''},
+        {id: '2', title: 'todo 2', filter: 'all', sort: 'default', order: 1, addedDate: ''},
     ])
 })
 test('todolist sort should change correctly', ()=>{
@@ -32,8 +38,8 @@ test('todolist sort should change correctly', ()=>{
     const updatedState = todolistsReducer(initialState, action)
 
     expect(updatedState).toEqual([
-        {id: '1', title: 'todo 1', filter: 'all', sort: 'A-z'},
-        {id: '2', title: 'todo 2', filter: 'all', sort: 'default'},
+        {id: '1', title: 'todo 1', filter: 'all', sort: 'A-z', order: 1, addedDate: ''},
+        {id: '2', title: 'todo 2', filter: 'all', sort: 'default', order: 1, addedDate: ''},
     ])
 
 

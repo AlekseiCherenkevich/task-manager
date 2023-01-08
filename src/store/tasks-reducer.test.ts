@@ -1,16 +1,25 @@
-import {addNewTask, changeTaskStatus, changeTaskTitle, removeTask, tasksReducer, TasksType} from "./tasks-reducer";
+import {
+    addNewTask,
+    changeTaskStatus,
+    changeTaskTitle,
+    removeTask,
+    TaskPriorities,
+    tasksReducer,
+    TaskStatuses,
+    TasksType
+} from "./tasks-reducer";
 
 
 const initialState: TasksType = {
     '1': [
-        {id: '1', title: 'task 1', isDone: false},
-        {id: '2', title: 'task 2', isDone: true},
-        {id: '3', title: 'task 3', isDone: false}
+        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '2', title: 'task 2', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '3', title: 'task 3', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ],
     '2': [
-        {id: '5', title: 'task 5', isDone: false},
-        {id: '6', title: 'task 6', isDone: true},
-        {id: '7', title: 'task 7', isDone: false}
+        {id: '5', title: 'task 5', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '6', title: 'task 6', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '7', title: 'task 7', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ],
 }
 
@@ -30,8 +39,8 @@ test('task should be removed correctly', ()=>{
 
     expect(initialState['2']).toBe(updatedState['2'])
     expect(updatedState['1']).toEqual([
-        {id: '1', title: 'task 1', isDone: false},
-        {id: '3', title: 'task 3', isDone: false}
+        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '3', title: 'task 3', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ])
 })
 test('task title should be changed correctly', ()=>{
@@ -41,20 +50,20 @@ test('task title should be changed correctly', ()=>{
 
     expect(initialState['2']).toBe(updatedState['2'])
     expect(updatedState['1']).toEqual([
-        {id: '1', title: 'task 1', isDone: false},
-        {id: '2', title: 'task 2', isDone: true},
-        {id: '3', title: 'changed title', isDone: false}
+        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '2', title: 'task 2', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '3', title: 'changed title', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ])
 })
 test('task status should be changed correctly',()=>{
-    const action = changeTaskStatus('1', '2', false)
+    const action = changeTaskStatus('1', '2', TaskStatuses.Completed)
 
     const updatedState = tasksReducer(initialState, action)
 
     expect(initialState['2']).toBe(updatedState['2'])
     expect(updatedState['1']).toEqual([
-        {id: '1', title: 'task 1', isDone: false},
-        {id: '2', title: 'task 2', isDone: false},
-        {id: '3', title: 'task 3', isDone: false}
+        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
+        {id: '2', title: 'task 2', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.Completed},
+        {id: '3', title: 'task 3', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ])
 })
