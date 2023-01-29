@@ -40,10 +40,10 @@ type ActionsType =
     | AddNewTodolistType
     | RemoveTodolist
 
-type AddNewTaskType = ReturnType<typeof addNewTask>
-type RemoveTaskType = ReturnType<typeof removeTask>
-type ChangeTaskTitleType = ReturnType<typeof changeTaskTitle>
-type ChangeTaskStatusType = ReturnType<typeof changeTaskStatus>
+type AddNewTaskType = ReturnType<typeof addNewTaskAC>
+type RemoveTaskType = ReturnType<typeof removeTaskAC>
+type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
+type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
 
 
 const checkLocalStorage = () => {
@@ -104,15 +104,15 @@ export const tasksReducer = (state: TasksType = checkLocalStorage(), action: Act
     }
 }
 
-export const addNewTask = (todolistId: string, taskTitle: string) => (
+export const addNewTaskAC = (todolistId: string, taskTitle: string) => (
     {type: 'ADD-NEW-TASK', payload: {todolistId, taskTitle, taskId: v1()}} as const)
 
-export const removeTask = (todolistId: string, taskId: string) => (
+export const removeTaskAC = (todolistId: string, taskId: string) => (
     {type: 'REMOVE-TASK', payload: {todolistId, taskId}} as const
 )
 
-export const changeTaskTitle = (todolistId: string, taskId: string, taskTitle: string) => (
+export const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle: string) => (
     {type: 'CHANGE-TASK-TITLE', payload: {todolistId, taskId, taskTitle}} as const
 )
-export const changeTaskStatus = (todolistId: string, taskId: string, status: TaskStatuses) => (
+export const changeTaskStatusAC = (todolistId: string, taskId: string, status: TaskStatuses) => (
     {type: 'CHANGE-TASK-STATUS', payload: {todolistId, taskId, status}} as const)

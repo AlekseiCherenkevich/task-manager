@@ -1,6 +1,5 @@
 import {useEffect} from 'react';
-import {useSelector} from "react-redux";
-import {AppStateType} from "./store/store";
+import {useAppSelector} from "./store/store";
 import './App.css'
 import {Todolist} from "./components/Todolist/Todolist";
 import Container from '@mui/material/Container';
@@ -11,10 +10,12 @@ import {Header} from "./components/Header/Header";
 import {TodolistEntityType} from "./store/todolists-reducer";
 
 export const App = () => {
-    const todolists = useSelector<AppStateType, TodolistEntityType[]>(state => state.todolists)
+    const todolists = useAppSelector<TodolistEntityType[]>(state => state.todolists)
 
     useEffect(() => {
         localStorage.setItem('todolists', JSON.stringify(todolists))
+
+
     }, [todolists])
 
     return (
@@ -25,7 +26,7 @@ export const App = () => {
                 <Grid container spacing={3} style={{marginTop: '20px'}}>
                     {todolists.map(tl => {
                         return (
-                            <Grid item>
+                            <Grid item key={tl.id}>
                                 <Paper style={{padding: '20px'}} elevation={8}>
                                     <Todolist {...tl}/>
                                 </Paper>

@@ -1,9 +1,8 @@
 import {FC, memo, useCallback, useEffect} from 'react';
-import {addNewTask, TaskStatuses, TasksType} from "../../store/tasks-reducer";
+import {addNewTaskAC, TaskStatuses, TasksType} from "../../store/tasks-reducer";
 import {TodolistEntityType} from "../../store/todolists-reducer";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../store/store";
+import {useAppDispatch, useAppSelector} from "../../store/store";
 import {FilteringButtonsGroup} from './FilteringButtonsGroup/FilteringButtonsGroup';
 import {SortingButtonsGroup} from "./SortingButtonsGroup/SortingButtonsGroup";
 import {TodolistTitleSection} from "./TodolistTitleSection/TodolistTitleSection";
@@ -11,15 +10,15 @@ import {TasksSection} from "./TasksSection/TasksSection";
 
 
 export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort}) => {
-    const dispatch = useDispatch()
-    const tasks = useSelector<AppStateType, TasksType>(state => state.tasks)
+    const dispatch = useAppDispatch()
+    const tasks = useAppSelector<TasksType>(state => state.tasks)
 
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(tasks))
     }, [tasks])
 
-    const addNewTaskHandler = useCallback((taskTitle: string) => {
-        dispatch(addNewTask(id, taskTitle))
+    const addNewTask = useCallback((taskTitle: string) => {
+        dispatch(addNewTaskAC(id, taskTitle))
     }, [dispatch, id])
 
     let filteredSortedTasks = tasks[id]
@@ -40,7 +39,7 @@ export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort})
     return <div key={id}>
         <div>
             <TodolistTitleSection id={id} title={title} />
-            <AddItemForm onClick={addNewTaskHandler} placeholder={'Enter task'}/>
+            <AddItemForm onClick={addNewTask} placeholder={'Enter task'}/>
         </div>
         <SortingButtonsGroup sort={sort} id={id}/>
         <TasksSection filteredSortedTasks={filteredSortedTasks}/>

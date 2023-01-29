@@ -1,4 +1,4 @@
-import {addNewTodolist, removeTodolist, TodolistEntityType, todolistsReducer} from "./todolists-reducer"
+import {addNewTodolistAC, removeTodolistAC, TodolistEntityType, todolistsReducer} from "./todolists-reducer"
 import {TaskPriorities, tasksReducer, TaskStatuses, TasksType} from "./tasks-reducer";
 
 export const initialTodolistsState: TodolistEntityType[] = [
@@ -86,7 +86,7 @@ const initialTasksState: TasksType = {
 }
 
 test('new todolist should be added correctly', () => {
-    const action = addNewTodolist('newTodo')
+    const action = addNewTodolistAC('newTodo')
 
 
     const updatedTodolistsState = todolistsReducer(initialTodolistsState, action)
@@ -101,7 +101,7 @@ test('new todolist should be added correctly', () => {
     expect(Object.keys(updatedTasksState).length).toBe((Object.keys(initialTasksState).length) + 1)
 })
 test('todolists should remove correctly', () => {
-    const action = removeTodolist('1')
+    const action = removeTodolistAC('1')
 
     const updatedTodolistsState = todolistsReducer(initialTodolistsState, action)
     const updatedTasksState = tasksReducer(initialTasksState, action)

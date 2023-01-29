@@ -1,8 +1,8 @@
 import {
-    addNewTask,
-    changeTaskStatus,
-    changeTaskTitle,
-    removeTask,
+    addNewTaskAC,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
     TaskPriorities,
     tasksReducer,
     TaskStatuses,
@@ -24,7 +24,7 @@ const initialState: TasksType = {
 }
 
 test('new task should be added correctly' ,() => {
-    const action = addNewTask('1', 'added task')
+    const action = addNewTaskAC('1', 'added task')
 
     const updatedState = tasksReducer(initialState, action)
 
@@ -33,7 +33,7 @@ test('new task should be added correctly' ,() => {
     expect(updatedState['1'][0].title).toBe('added task')
 })
 test('task should be removed correctly', ()=>{
-    const action = removeTask('1', '2')
+    const action = removeTaskAC('1', '2')
 
     const updatedState = tasksReducer(initialState, action)
 
@@ -44,7 +44,7 @@ test('task should be removed correctly', ()=>{
     ])
 })
 test('task title should be changed correctly', ()=>{
-    const action = changeTaskTitle('1', '3', 'changed title')
+    const action = changeTaskTitleAC('1', '3', 'changed title')
 
     const updatedState = tasksReducer(initialState, action)
 
@@ -56,7 +56,7 @@ test('task title should be changed correctly', ()=>{
     ])
 })
 test('task status should be changed correctly',()=>{
-    const action = changeTaskStatus('1', '2', TaskStatuses.Completed)
+    const action = changeTaskStatusAC('1', '2', TaskStatuses.Completed)
 
     const updatedState = tasksReducer(initialState, action)
 

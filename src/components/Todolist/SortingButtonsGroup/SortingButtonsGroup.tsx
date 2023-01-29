@@ -1,8 +1,8 @@
-import {changeTodolistSort, SortValuesType} from "../../../store/todolists-reducer";
-import {FC, memo } from "react";
+import {changeTodolistSortAC, SortValuesType} from "../../../store/todolists-reducer";
+import {FC, memo} from "react";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import {useDispatch} from "react-redux";
+import {useAppDispatch} from "../../../store/store";
 
 type SortingButtonsGroupPropsType = {
     sort: SortValuesType
@@ -10,23 +10,23 @@ type SortingButtonsGroupPropsType = {
 }
 
 export const SortingButtonsGroup: FC<SortingButtonsGroupPropsType> = memo( ({sort, id}) => {
-    const dispatch = useDispatch()
-    const changeTodolistSortHandler = (sort: SortValuesType) => () => {
-        dispatch(changeTodolistSort(id, sort))
+    const dispatch = useAppDispatch()
+    const changeTodolistSort = (sort: SortValuesType) => () => {
+        dispatch(changeTodolistSortAC(id, sort))
     }
 
     return <Stack direction={"row"}
                   style={{display: 'flex', justifyContent: 'center'}}
     >
-        <Button onClick={changeTodolistSortHandler("default")}
+        <Button onClick={changeTodolistSort("default")}
                 variant={sort==="default"?"contained":"outlined"}
                 size={"small"}
         >Default</Button>
-        <Button onClick={changeTodolistSortHandler("A-z")}
+        <Button onClick={changeTodolistSort("A-z")}
                 variant={sort==="A-z"?"contained":"outlined"}
                 size={"small"}
         >A-z</Button>
-        <Button onClick={changeTodolistSortHandler("z-A")}
+        <Button onClick={changeTodolistSort("z-A")}
                 variant={sort==="z-A"?"contained":"outlined"}
                 size={"small"}
         >z-A</Button>

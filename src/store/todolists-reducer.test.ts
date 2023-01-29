@@ -1,7 +1,7 @@
 import {
-    changeTodolistFilter,
-    changeTodolistSort,
-    changeTodolistTitle,
+    changeTodolistFilterAC,
+    changeTodolistSortAC,
+    changeTodolistTitleAC,
     TodolistEntityType,
     todolistsReducer
 } from "./todolists-reducer";
@@ -13,7 +13,7 @@ const initialState: TodolistEntityType[] = [
 ]
 
 test('todolist title should be changed correctly', ()=>{
-    const action = changeTodolistTitle('1', 'changed title')
+    const action = changeTodolistTitleAC('1', 'changed title')
 
     const updatedState = todolistsReducer(initialState, action)
 
@@ -23,7 +23,7 @@ test('todolist title should be changed correctly', ()=>{
     ])
 })
 test('todolist filter should change correctly', ()=>{
-    const action = changeTodolistFilter('1', 'active')
+    const action = changeTodolistFilterAC('1', 'active')
 
     const updatedState = todolistsReducer(initialState, action)
 
@@ -33,7 +33,7 @@ test('todolist filter should change correctly', ()=>{
     ])
 })
 test('todolist sort should change correctly', ()=>{
-    const action = changeTodolistSort('1', 'A-z')
+    const action = changeTodolistSortAC('1', 'A-z')
 
     const updatedState = todolistsReducer(initialState, action)
 
