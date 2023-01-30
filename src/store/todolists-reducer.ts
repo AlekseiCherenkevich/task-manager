@@ -1,4 +1,6 @@
+import { Dispatch } from "redux"
 import {v1} from "uuid"
+import {api} from "../api/api";
 
 
 export type TodolistType = {
@@ -15,25 +17,19 @@ export type TodolistEntityType = TodolistType & {filter: FilterValuesType, sort:
 export type FilterValuesType = 'all' | 'completed' | 'active'
 export type SortValuesType = 'default' | 'A-z' | 'z-A'
 
-type ActionsType = AddNewTodolistType | RemoveTodolist | ChangeTodolistTitle | ChangeTodolistFilter | ChangeTodolistSort
-export type AddNewTodolistType = ReturnType<typeof addNewTodolist>
-export type RemoveTodolist = ReturnType<typeof removeTodolist>
-type ChangeTodolistTitle = ReturnType<typeof changeTodolistTitle>
-type ChangeTodolistFilter = ReturnType<typeof changeTodolistFilter>
-type ChangeTodolistSort = ReturnType<typeof changeTodolistSort>
+type ActionsType = AddNewTodolistType | RemoveTodolistType | ChangeTodolistTitleType | ChangeTodolistFilterType | ChangeTodolistSortType | SetTodolistsType
+export type AddNewTodolistType = ReturnType<typeof addNewTodolistAC>
+export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
+type ChangeTodolistTitleType = ReturnType<typeof changeTodolistTitleAC>
+type ChangeTodolistFilterType = ReturnType<typeof changeTodolistFilterAC>
+type ChangeTodolistSortType = ReturnType<typeof changeTodolistSortAC>
+type SetTodolistsType = ReturnType<typeof setTodolistsAC>
 
 
-const checkLocalStorage = () => {
-    const state = localStorage.getItem('todolists')
-    if (state) {
-        return JSON.parse(state)
-    } else {
-        return [] as TodolistEntityType[]
-    }
-}
-
-export const todolistsReducer = (state: TodolistEntityType[] = checkLocalStorage(), action: ActionsType): TodolistEntityType[] => {
+export const todolistsReducer = (state: TodolistEntityType[] = [], action: ActionsType): TodolistEntityType[] => {
     switch (action.type) {
+        case "SET-TODOLISTS":
+            return action.payload.todolists.map(tl=>({...tl, filter: "all", sort: "default"}))
         case "ADD-NEW-TODOLIST":
             const newTodolist: TodolistEntityType = {
                 id: action.payload.todolistId,
@@ -60,15 +56,28 @@ export const todolistsReducer = (state: TodolistEntityType[] = checkLocalStorage
     }
 }
 
-export const addNewTodolist = (todolistTitle: string) => ({
+export const addNewTodolistAC = (todolistTitle: string) => ({
     type: 'ADD-NEW-TODOLIST',
     payload: {todolistTitle, todolistId: v1()}
 } as const)
-export const removeTodolist = (todolistId: string) => (
+export const removeTodolistAC = (todolistId: string) => (
     {type: 'REMOVE-TODOLIST', payload: {todolistId}} as const)
-export const changeTodolistTitle = (todolistId: string, todolistTitle: string) => (
+export const changeTodolistTitleAC = (todolistId: string, todolistTitle: string) => (
     {type: 'CHANGE-TODOLIST-TITLE', payload: {todolistId, todolistTitle}} as const)
-export const changeTodolistFilter = (todolistId: string, filter: FilterValuesType) => (
+export const changeTodolistFilterAC = (todolistId: string, filter: FilterValuesType) => (
     {type: 'CHANGE-TODOLIST-FILTER', payload: {todolistId, filter}} as const)
-export const changeTodolistSort = (todolistId: string, sort: SortValuesType) => (
+export const changeTodolistSortAC = (todolistId: string, sort: SortValuesType) => (
     {type: 'CHANGE-TODOLIST-SORT', payload: {todolistId, sort}} as const)
+export const setTodolistsAC = (todolists: TodolistType[]) => {
+    return {type: 'SET-TODOLISTS', payload: {todolists}} as const
+}
+
+export const fetchTodolistsTC = () => async (dispatch: Dispatch) => {
+    const res = await api.getTodolists()
+    dispatch(setTodolistsAC(res))
+}
+
+
+
+
+

@@ -1,21 +1,12 @@
+import {Dispatch} from "redux";
 import {v1} from "uuid";
-import {AddNewTodolistType, RemoveTodolist} from "./todolists-reducer";
+import {api, TaskType} from "../api/api";
+import {AddNewTodolistType, RemoveTodolistType} from "./todolists-reducer";
 
 export type TasksType = {
     [key: string]: TaskType[]
 }
-export type TaskType = {
-    id: string
-    title: string
-    description: string
-    todoListId: string
-    order: number
-    status: TaskStatuses
-    priority: TaskPriorities
-    startDate: string | null
-    deadline: string | null
-    addedDate: string
-}
+
 
 export enum TaskStatuses {
     New = 0,
@@ -38,25 +29,25 @@ type ActionsType =
     | ChangeTaskTitleType
     | ChangeTaskStatusType
     | AddNewTodolistType
-    | RemoveTodolist
+    | RemoveTodolistType
+    | SetTasksAC
 
 type AddNewTaskType = ReturnType<typeof addNewTaskAC>
 type RemoveTaskType = ReturnType<typeof removeTaskAC>
 type ChangeTaskTitleType = ReturnType<typeof changeTaskTitleAC>
 type ChangeTaskStatusType = ReturnType<typeof changeTaskStatusAC>
+type SetTasksAC = ReturnType<typeof setTasksAC>
 
 
-const checkLocalStorage = () => {
-    const state = localStorage.getItem('tasks')
-    if (state) {
-        return JSON.parse(state)
-    } else {
-        return {} as TasksType
-    }
-}
-
-export const tasksReducer = (state: TasksType = checkLocalStorage(), action: ActionsType): TasksType => {
+export const tasksReducer = (state: TasksType = {}, action: ActionsType): TasksType => {
     switch (action.type) {
+        case "SET-TASKS":
+            let localState: TasksType = {[action.payload.todolistId]: []}
+            action.payload.tasks.forEach(t=>{
+                localState[action.payload.todolistId].push(t)
+            })
+            return {...state, ...localState}
+
         case "ADD-NEW-TASK":
             return {
                 ...state,
@@ -106,13 +97,19 @@ export const tasksReducer = (state: TasksType = checkLocalStorage(), action: Act
 
 export const addNewTaskAC = (todolistId: string, taskTitle: string) => (
     {type: 'ADD-NEW-TASK', payload: {todolistId, taskTitle, taskId: v1()}} as const)
-
 export const removeTaskAC = (todolistId: string, taskId: string) => (
     {type: 'REMOVE-TASK', payload: {todolistId, taskId}} as const
 )
-
 export const changeTaskTitleAC = (todolistId: string, taskId: string, taskTitle: string) => (
     {type: 'CHANGE-TASK-TITLE', payload: {todolistId, taskId, taskTitle}} as const
 )
 export const changeTaskStatusAC = (todolistId: string, taskId: string, status: TaskStatuses) => (
     {type: 'CHANGE-TASK-STATUS', payload: {todolistId, taskId, status}} as const)
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
+    return {type: 'SET-TASKS', payload:{todolistId, tasks}} as const
+}
+
+export const fetchTasksTC = (todolistId: string) => async (dispatch: Dispatch) => {
+    const res = await api.getTasks(todolistId)
+    dispatch(setTasksAC(todolistId, res.items))
+}

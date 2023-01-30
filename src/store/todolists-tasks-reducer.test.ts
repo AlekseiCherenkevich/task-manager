@@ -155,6 +155,4 @@ test('todolists should remove correctly', () => {
         ],
     })
     expect(updatedTasksState['2']).toBe(initialTasksState['2'])
-
-
 })

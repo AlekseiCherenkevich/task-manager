@@ -1,7 +1,7 @@
 import {
     changeTodolistFilterAC,
     changeTodolistSortAC,
-    changeTodolistTitleAC,
+    changeTodolistTitleAC, setTodolistsAC,
     TodolistEntityType,
     todolistsReducer
 } from "./todolists-reducer";
@@ -41,7 +41,19 @@ test('todolist sort should change correctly', ()=>{
         {id: '1', title: 'todo 1', filter: 'all', sort: 'A-z', order: 1, addedDate: ''},
         {id: '2', title: 'todo 2', filter: 'all', sort: 'default', order: 1, addedDate: ''},
     ])
+})
+test('todolists should set correctly', ()=>{
 
+    const action = setTodolistsAC([
+        {id: '3', title: 'todo 3', order: 1, addedDate: ''},
+        {id: '4', title: 'todo 4', order: 1, addedDate: ''},
+    ])
 
+    const updatedState = todolistsReducer(initialState, action)
+
+    expect(updatedState).toEqual([
+        {id: '3', title: 'todo 3', filter: 'all', sort: 'default', order: 1, addedDate: ''},
+        {id: '4', title: 'todo 4', filter: 'all', sort: 'default', order: 1, addedDate: ''},
+    ])
 })
 

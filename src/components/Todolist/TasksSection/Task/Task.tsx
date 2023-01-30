@@ -1,10 +1,11 @@
 import React, {ChangeEvent, FC, memo, useCallback} from "react";
 import {useDispatch} from "react-redux";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskStatuses, TaskType} from "../../../../store/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskStatuses} from "../../../../store/tasks-reducer";
 import {EditableSpan} from "../../../common/EditableSpan/EditableSpan";
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Checkbox from '@mui/material/Checkbox';
+import {TaskType} from "../../../../api/api";
 
 export const Task: FC<TaskType> = memo( ({todoListId, id, title, status}) => {
     const dispatch = useDispatch()

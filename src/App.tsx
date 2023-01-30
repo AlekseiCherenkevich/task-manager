@@ -1,5 +1,5 @@
 import {useEffect} from 'react';
-import {useAppSelector} from "./store/store";
+import {useAppDispatch, useAppSelector} from "./store/store";
 import './App.css'
 import {Todolist} from "./components/Todolist/Todolist";
 import Container from '@mui/material/Container';
@@ -7,16 +7,15 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import {AddTodoListForm} from "./components/AddTodoListForm/AddTodoListForm";
 import {Header} from "./components/Header/Header";
-import {TodolistEntityType} from "./store/todolists-reducer";
+import {fetchTodolistsTC, TodolistEntityType} from "./store/todolists-reducer";
 
 export const App = () => {
     const todolists = useAppSelector<TodolistEntityType[]>(state => state.todolists)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        localStorage.setItem('todolists', JSON.stringify(todolists))
-
-
-    }, [todolists])
+        dispatch(fetchTodolistsTC())
+    }, [])
 
     return (
         <div>

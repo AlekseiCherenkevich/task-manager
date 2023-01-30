@@ -1,5 +1,5 @@
 import {FC, memo, useCallback, useEffect} from 'react';
-import {addNewTaskAC, TaskStatuses, TasksType} from "../../store/tasks-reducer";
+import {addNewTaskAC, fetchTasksTC, TaskStatuses} from "../../store/tasks-reducer";
 import {TodolistEntityType} from "../../store/todolists-reducer";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "../../store/store";
@@ -7,21 +7,22 @@ import {FilteringButtonsGroup} from './FilteringButtonsGroup/FilteringButtonsGro
 import {SortingButtonsGroup} from "./SortingButtonsGroup/SortingButtonsGroup";
 import {TodolistTitleSection} from "./TodolistTitleSection/TodolistTitleSection";
 import {TasksSection} from "./TasksSection/TasksSection";
+import {TaskType} from "../../api/api";
 
 
 export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort}) => {
     const dispatch = useAppDispatch()
-    const tasks = useAppSelector<TasksType>(state => state.tasks)
+    const tasks = useAppSelector<TaskType[]>(state => state.tasks[id])
 
     useEffect(() => {
-        localStorage.setItem('tasks', JSON.stringify(tasks))
-    }, [tasks])
+        dispatch(fetchTasksTC(id))
+    }, [])
 
     const addNewTask = useCallback((taskTitle: string) => {
         dispatch(addNewTaskAC(id, taskTitle))
     }, [dispatch, id])
 
-    let filteredSortedTasks = tasks[id]
+    let filteredSortedTasks = tasks
 
     if (filter === "active") {
         filteredSortedTasks = filteredSortedTasks.filter(t => t.status === TaskStatuses.New)
@@ -45,7 +46,7 @@ export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort})
         <TasksSection filteredSortedTasks={filteredSortedTasks}/>
         <FilteringButtonsGroup filter={filter} id={id}/>
     </div>
-});
+})
 
 
 
