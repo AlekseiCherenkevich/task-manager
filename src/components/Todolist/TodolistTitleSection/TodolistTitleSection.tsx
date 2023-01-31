@@ -1,5 +1,5 @@
 import {FC, memo, useCallback} from "react";
-import {changeTodolistTitleAC, removeTodolistTC} from "../../../store/todolists-reducer";
+import {changeTodolistTitleTC, removeTodolistTC} from "../../../store/todolists-reducer";
 import {EditableSpan} from "../../common/EditableSpan/EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -15,7 +15,7 @@ export const TodolistTitleSection: FC<TodolistTitleSectionPropsType> = memo(({ti
         dispatch(removeTodolistTC(id))
     }, [dispatch, id])
     const changeTodolistTitleHandler = useCallback((todolistTitle: string) => {
-        dispatch(changeTodolistTitleAC(id, todolistTitle))
+        dispatch(changeTodolistTitleTC(id, todolistTitle))
     }, [dispatch, id])
 
     return <div style={{display: 'flex', justifyContent: 'center'}}>

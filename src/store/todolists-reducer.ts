@@ -79,6 +79,12 @@ export const removeTodolistTC = (todolistId: string) => async (dispatch: Dispatc
         dispatch(removeTodolistAC(todolistId))
     }
 }
+export const changeTodolistTitleTC = (todolistId: string, title: string) => async (dispatch: Dispatch) => {
+    const res = await api.updateTodolist(todolistId, title)
+    if (res.resultCode === 0) {
+        dispatch(changeTodolistTitleAC(todolistId, title))
+    }
+}
 
 
 
