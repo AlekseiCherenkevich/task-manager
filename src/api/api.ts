@@ -20,15 +20,15 @@ export const api = {
             })
     },
     createTodolist(title: string) {
-        return instance.post<TodolistResponseType<{item: TodolistType}>>('todo-lists', {title})
+        return instance.post<string, AxiosResponse<ResponseType<{item: TodolistType}>>>('todo-lists', {title})
             .then(res => res.data)
     },
     removeTodolist(todolistId: string) {
-        return instance.delete<TodolistResponseType>(`todo-lists/${todolistId}`)
+        return instance.delete<string, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`)
             .then(res => res.data)
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<TodolistResponseType>(`todo-lists/${todolistId}`, {title})
+        return instance.put<string, AxiosResponse<ResponseType>>(`todo-lists/${todolistId}`, {title})
             .then(res => res.data)
     },
     getTasks(todolistId: string) {
@@ -36,15 +36,15 @@ export const api = {
             .then(res => res.data)
     },
     createTask(todolistId: string, title: string) {
-        return instance.post(`lists/${todolistId}/tasks`, {title})
+        return instance.post<string, AxiosResponse<ResponseType<{item: TaskType}>>>(`lists/${todolistId}/tasks`, {title})
             .then(res => res.data)
     },
     updateTask(todolistId: string, taskId: string, task: TaskRequestType) {
-        return instance.put(`lists/${todolistId}/tasks/${taskId}`, {task})
+        return instance.put<TaskRequestType, AxiosResponse<{item: TaskType}>>(`lists/${todolistId}/tasks/${taskId}`, {task})
             .then(res => res.data)
     },
     removeTask(todolistId: string, taskId: string) {
-        return instance.delete(`lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`lists/${todolistId}/tasks/${taskId}`)
             .then(res => res.data)
     }
 }
@@ -77,12 +77,15 @@ type FetchTasksResponseType = {
     error: string | null
 }
 
-type TodolistResponseType<D = {}> = {
+type ResponseType<D = {}> = {
     data: D
     messages: string[]
     fieldsErrors: string[]
     resultCode: number
 }
+
+
+
 
 
 
