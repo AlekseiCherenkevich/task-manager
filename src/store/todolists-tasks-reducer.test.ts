@@ -86,7 +86,7 @@ const initialTasksState: TasksType = {
 }
 
 test('new todolist should be added correctly', () => {
-    const action = addNewTodolistAC('newTodo')
+    const action = addNewTodolistAC({id: '10', title: 'check', order: 0, addedDate: 'xxx'})
 
 
     const updatedTodolistsState = todolistsReducer(initialTodolistsState, action)
@@ -94,7 +94,7 @@ test('new todolist should be added correctly', () => {
 
 
     expect(updatedTodolistsState.length).toBe(initialTodolistsState.length + 1)
-    expect(updatedTodolistsState[2].title).toBe('newTodo')
+    expect(updatedTodolistsState[2].title).toBe('check')
     expect(updatedTodolistsState[2].filter).toBe('all')
     expect(updatedTodolistsState[2].sort).toBe('default')
 

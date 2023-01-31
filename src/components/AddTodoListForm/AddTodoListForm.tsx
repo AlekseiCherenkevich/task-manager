@@ -2,13 +2,13 @@ import {useCallback} from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
-import {addNewTodolistAC} from "../../store/todolists-reducer";
 import {useAppDispatch} from "../../store/store";
+import {createTodolistTC} from "../../store/todolists-reducer";
 
 export const AddTodoListForm = () => {
     const dispatch = useAppDispatch()
     const addNewTodolist = useCallback ((todolistTitle: string) => {
-        dispatch(addNewTodolistAC(todolistTitle))
+        dispatch(createTodolistTC(todolistTitle))
     }, [dispatch])
 
     return <Grid container style={{marginTop: '20px'}}>

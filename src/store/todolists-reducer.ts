@@ -1,5 +1,4 @@
 import { Dispatch } from "redux"
-import {v1} from "uuid"
 import {api} from "../api/api";
 
 
@@ -32,12 +31,9 @@ export const todolistsReducer = (state: TodolistEntityType[] = [], action: Actio
             return action.payload.todolists.map(tl=>({...tl, filter: "all", sort: "default"}))
         case "ADD-NEW-TODOLIST":
             const newTodolist: TodolistEntityType = {
-                id: action.payload.todolistId,
-                title: action.payload.todolistTitle,
+                ...action.payload.todolist,
                 filter: 'all',
                 sort: "default",
-                addedDate: '',
-                order: 0
             }
             return state.length ? [...state, newTodolist] : [newTodolist]
         case "REMOVE-TODOLIST":
@@ -56,9 +52,9 @@ export const todolistsReducer = (state: TodolistEntityType[] = [], action: Actio
     }
 }
 
-export const addNewTodolistAC = (todolistTitle: string) => ({
+export const addNewTodolistAC = (todolist: TodolistType) => ({
     type: 'ADD-NEW-TODOLIST',
-    payload: {todolistTitle, todolistId: v1()}
+    payload: {todolist}
 } as const)
 export const removeTodolistAC = (todolistId: string) => (
     {type: 'REMOVE-TODOLIST', payload: {todolistId}} as const)
@@ -77,7 +73,10 @@ export const fetchTodolistsTC = () => async (dispatch: Dispatch) => {
     dispatch(setTodolistsAC(res))
 }
 
-
+export const createTodolistTC = (title: string) => async (dispatch: Dispatch) => {
+    const res = await api.createTodolist(title)
+    dispatch(addNewTodolistAC(res.data.item))
+}
 
 
 
