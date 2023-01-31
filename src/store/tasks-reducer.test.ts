@@ -24,13 +24,13 @@ const initialState: TasksType = {
 }
 
 test('new task should be added correctly' ,() => {
-    const action = addNewTaskAC('1', 'added task')
+    const action = addNewTaskAC({id: '44', title: 'task 44', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New})
 
     const updatedState = tasksReducer(initialState, action)
 
     expect(initialState['2']).toBe(updatedState['2'])
     expect(updatedState['1'].length).toBe(initialState['1'].length+1)
-    expect(updatedState['1'][0].title).toBe('added task')
+    expect(updatedState['1'][0].title).toBe('task 44')
 })
 test('task should be removed correctly', ()=>{
     const action = removeTaskAC('1', '2')

@@ -1,5 +1,5 @@
 import {FC, memo, useCallback, useEffect} from 'react';
-import {addNewTaskAC, fetchTasksTC, TaskStatuses} from "../../store/tasks-reducer";
+import {createTaskTC, fetchTasksTC, TaskStatuses} from "../../store/tasks-reducer";
 import {TodolistEntityType} from "../../store/todolists-reducer";
 import {AddItemForm} from "../common/AddItemForm/AddItemForm";
 import {useAppDispatch, useAppSelector} from "../../store/store";
@@ -19,7 +19,7 @@ export const Todolist: FC<TodolistEntityType> = memo(({id, title, filter, sort})
     }, [])
 
     const addNewTask = useCallback((taskTitle: string) => {
-        dispatch(addNewTaskAC(id, taskTitle))
+        dispatch(createTaskTC(id, taskTitle))
     }, [dispatch, id])
 
     let filteredSortedTasks = tasks
