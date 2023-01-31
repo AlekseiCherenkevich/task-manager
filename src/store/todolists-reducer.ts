@@ -7,8 +7,6 @@ export type TodolistType = {
     title: string
     addedDate: string
     order: number
-    // filter: FilterValuesType
-    // sort: SortValuesType
 }
 
 export type TodolistEntityType = TodolistType & {filter: FilterValuesType, sort: SortValuesType}
@@ -67,15 +65,19 @@ export const changeTodolistSortAC = (todolistId: string, sort: SortValuesType) =
 export const setTodolistsAC = (todolists: TodolistType[]) => {
     return {type: 'SET-TODOLISTS', payload: {todolists}} as const
 }
-
 export const fetchTodolistsTC = () => async (dispatch: Dispatch) => {
     const res = await api.getTodolists()
     dispatch(setTodolistsAC(res))
 }
-
 export const createTodolistTC = (title: string) => async (dispatch: Dispatch) => {
     const res = await api.createTodolist(title)
     dispatch(addNewTodolistAC(res.data.item))
+}
+export const removeTodolistTC = (todolistId: string) => async (dispatch: Dispatch) => {
+    const res = await api.removeTodolist(todolistId)
+    if (res.resultCode === 0) {
+        dispatch(removeTodolistAC(todolistId))
+    }
 }
 
 
