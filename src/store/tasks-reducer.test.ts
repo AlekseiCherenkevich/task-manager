@@ -1,7 +1,5 @@
 import {
     addNewTaskAC,
-    changeTaskStatusAC,
-    changeTaskTitleAC,
     removeTaskAC,
     TaskPriorities,
     tasksReducer,
@@ -43,27 +41,4 @@ test('task should be removed correctly', ()=>{
         {id: '3', title: 'task 3', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
     ])
 })
-test('task title should be changed correctly', ()=>{
-    const action = changeTaskTitleAC('1', '3', 'changed title')
 
-    const updatedState = tasksReducer(initialState, action)
-
-    expect(initialState['2']).toBe(updatedState['2'])
-    expect(updatedState['1']).toEqual([
-        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-        {id: '2', title: 'task 2', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-        {id: '3', title: 'changed title', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
-    ])
-})
-test('task status should be changed correctly',()=>{
-    const action = changeTaskStatusAC('1', '2', TaskStatuses.Completed)
-
-    const updatedState = tasksReducer(initialState, action)
-
-    expect(initialState['2']).toBe(updatedState['2'])
-    expect(updatedState['1']).toEqual([
-        {id: '1', title: 'task 1', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-        {id: '2', title: 'task 2', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.Completed},
-        {id: '3', title: 'task 3', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
-    ])
-})
