@@ -40,7 +40,7 @@ export const api = {
             .then(res => res.data)
     },
     updateTask(todolistId: string, taskId: string, task: TaskRequestType) {
-        return instance.put<TaskRequestType, AxiosResponse<{item: TaskType}>>(`todo-lists/${todolistId}/tasks/${taskId}`, {task})
+        return instance.put<TaskRequestType, AxiosResponse<ResponseType<{item: TaskType}>>>(`todo-lists/${todolistId}/tasks/${taskId}`, task)
             .then(res => res.data)
     },
     removeTask(todolistId: string, taskId: string) {
@@ -52,16 +52,16 @@ export const api = {
 
 export type TaskRequestType = {
     title: string
-    description: string
+    description: string | null
     status: TaskStatuses
     priority: TaskPriorities
-    startDate: string
-    deadline: string
+    startDate: string | null
+    deadline: string | null
 }
 export type TaskType = {
     id: string
     title: string
-    description: string
+    description: string | null
     todoListId: string
     order: number
     status: TaskStatuses
