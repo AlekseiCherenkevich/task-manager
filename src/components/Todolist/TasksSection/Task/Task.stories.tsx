@@ -15,7 +15,7 @@ export default {
 const TaskContainer = () => {
     const tasks = useSelector<AppStateType, TaskType[]>(state => state.tasks['1'])
     const task = tasks.find(t=>t.id==='x1')
-    return task ? <Task {...task} /> : <div>Task was deleted</div>
+    return task ? <Task task={task} /> : <div>Task was deleted</div>
 }
 
 const Template: ComponentStory<typeof Task> = () => <TaskContainer/>

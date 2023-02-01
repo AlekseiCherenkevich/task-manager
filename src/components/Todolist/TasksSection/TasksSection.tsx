@@ -11,7 +11,7 @@ export const TasksSection: FC<TasksSectionPropsType> = ({filteredSortedTasks}) =
 
         {filteredSortedTasks && filteredSortedTasks.length
             ? filteredSortedTasks.map(t => {
-            return <Task key={t.id} {...t}/>
+            return <Task key={t.id} task={t}/>
         })
             : <Typography variant={"body1"} style={{paddingLeft: '30px'}}>Tasks not found</Typography>
         }
