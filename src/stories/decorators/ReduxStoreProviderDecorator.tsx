@@ -1,30 +1,52 @@
-import {Provider} from "react-redux";
-import {AppStateType, rootReducer} from "../../store/store";
-import {legacy_createStore} from "redux";
-import {TaskPriorities, TaskStatuses} from "../../store/tasks-reducer";
+import React from 'react'
+import {Provider} from 'react-redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
+import {tasksReducer} from '../../features/TodolistsList/tasks-reducer'
+import {todolistsReducer} from '../../features/TodolistsList/todolists-reducer'
+import {v1} from 'uuid'
+import {AppRootStateType} from '../../app/store'
+import {TaskPriorities, TaskStatuses} from '../../api/todolists-api'
+import {appReducer} from '../../app/app-reducer'
+import thunkMiddleware from 'redux-thunk'
 
+const rootReducer = combineReducers({
+    tasks: tasksReducer,
+    todolists: todolistsReducer,
+    app: appReducer
+})
 
-const initialState: AppStateType = {
+const initialGlobalState: AppRootStateType = {
     todolists: [
-        {id: '1', title: 'What to buy', sort: "default", filter: "all", order: 1, addedDate: ''},
-        {id: '2', title: 'What to learn', sort: "default", filter: "all", order: 1, addedDate: ''},
-    ],
+        {id: "todolistId1", title: "What to learn", filter: "all", entityStatus: 'idle', addedDate: '', order: 0},
+        {id: "todolistId2", title: "What to buy", filter: "all", entityStatus: 'loading', addedDate: '', order: 0}
+    ] ,
     tasks: {
-        '1': [
-            {id: 'x1', title: 'milk', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-            {id: 'x2', title: 'bread', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-            {id: 'x3', title: 'meat', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '1', priority: TaskPriorities.Middle, status: TaskStatuses.New}
+        ["todolistId1"]: [
+            {id: v1(), title: "HTML&CSS", status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
+            {id: v1(), title: "JS", status: TaskStatuses.Completed, todoListId: "todolistId1", description: '',
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
         ],
-        '2': [
-            {id: 'y1', title: 'JS', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-            {id: 'y2', title: 'CSS', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New},
-            {id: 'y3', title: 'React', addedDate: '', order: 0, deadline: '', startDate: '', description: '', todoListId: '2', priority: TaskPriorities.Middle, status: TaskStatuses.New}
-        ],
+        ["todolistId2"]: [
+            {id: v1(), title: "Milk", status: TaskStatuses.Completed, todoListId: "todolistId2", description: '',
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low},
+            {id: v1(), title: "React Book", status: TaskStatuses.Completed, todoListId: "todolistId2", description: '',
+                startDate: '', deadline: '', addedDate: '', order: 0, priority: TaskPriorities.Low}
+        ]
+    },
+    app: {
+        error: null,
+        status: 'idle',
+        isInitialized: false
+    },
+    auth: {
+        isLoggedIn: false
     }
-}
+};
 
-const store = legacy_createStore(rootReducer, initialState)
+export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunkMiddleware));
 
-export const ReduxStoreProviderDecorator = (storyFn: any) => {
-    return <Provider store={store}>{storyFn()}</Provider>
-}
+export const ReduxStoreProviderDecorator = (storyFn: any) => (
+    <Provider
+        store={storyBookStore}>{storyFn()}
+    </Provider>)
