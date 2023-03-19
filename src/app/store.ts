@@ -6,7 +6,7 @@ import {appReducer} from './app-reducer'
 import {authReducer} from '../features/Login/auth-reducer'
 import {configureStore} from "@reduxjs/toolkit";
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistsReducer,
     app: appReducer,
