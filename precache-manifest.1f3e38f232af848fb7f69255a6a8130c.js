@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "accdbdefcf9d282a7111d21ce814825e",
+    "revision": "a1a55f086ae891893547df1db79d488e",
     "url": "/task-manager/index.html"
   },
   {
