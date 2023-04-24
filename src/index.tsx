@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker'
 import App from './app/App'
 import {store} from './app/store'
 import {Provider} from 'react-redux'
-import {BrowserRouter} from 'react-router-dom'
+import {BrowserRouter, HashRouter} from 'react-router-dom'
 
 ReactDOM.render(
     <Provider store={store}>
@@ -13,6 +13,13 @@ ReactDOM.render(
             <App />
         </BrowserRouter>
     </Provider>, document.getElementById('root'))
+
+// ReactDOM.render(
+//   <Provider store={store}>
+//     <HashRouter>
+//       <App />
+//     </HashRouter>
+//   </Provider>, document.getElementById('root'))
 
 // If you want your appActions to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
